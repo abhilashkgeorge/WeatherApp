@@ -8,7 +8,6 @@ Successsfully made the API call and was able to display the results in the home 
 
 
 To Do's:
-Segmented Control Functionality.
 
 State Name. Since the API Doesnot provide us with the name of the state , I am working on implementing the state name using CoreLocation.
 
