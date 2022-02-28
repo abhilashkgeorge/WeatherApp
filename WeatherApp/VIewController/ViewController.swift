@@ -12,7 +12,7 @@ import SwiftUI
 class ViewController: UIViewController {
     private let apiManager = APIManager()
     let globalFunctions = GlobalFunctions()
-    //var location = Location()
+    var isFavoritesActive = true
     //Mark: Connection elements from storyboard
     private(set) var currentViewModel: CurrentWeatherViewModel?
     @IBOutlet weak var currentDayDateTimeLabel: UILabel!
@@ -59,10 +59,8 @@ class ViewController: UIViewController {
         segmentedControlToggled(Any.self)
         currentDayDateTimeLabel.text = "\(currentViewModel.dt)"
         LocationLabel.text = currentViewModel.name + ", State Name"
-        //currentTemperatureLabel.text = ""
         weatherStatusIcon.image = UIImage(named: "icon_mostly_sunny_small")
         weatherStatusLabel.text =  currentViewModel.description
-        //minMaxTempLabel.text = "\(currentViewModel.minTemp)-\(currentViewModel.maxTemp)"
         percipitationValue.text = "0%"
         humidityLabel.text = "\(currentViewModel.humudity)"
         windSpeedLabel.text = "\(currentViewModel.wind)"
@@ -96,31 +94,27 @@ class ViewController: UIViewController {
             UIBarButtonItem(image: UIImage(named: "logo_splash"), style: .done, target: self, action: nil)
         ]
     }
-    var isActive = false
+    
+    
     @IBAction func favouriteButtonTapped(_ sender: Any) {
-        
-        
-        if isActive == false
-        {
+        if isFavoritesActive {
             favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite_active"), for: .normal)
-            isActive = true
         } else {
             favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite"), for: .normal)
-            isActive = false
         }
-        
+        isFavoritesActive = !isFavoritesActive
     }
     @IBAction func segmentedControlToggled(_ sender: Any) {
         guard let currentViewModel = currentViewModel else {
             return
         }
-
+        
         segmentedControlButton.layer.borderWidth = 1.0
         segmentedControlButton.layer.cornerRadius = 5.0
         segmentedControlButton.layer.borderColor = UIColor.white.cgColor
         segmentedControlButton.layer.masksToBounds = true
         segmentedControlButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for: .selected)
-
+        
         if segmentedControlButton.selectedSegmentIndex == 0 {
             let currentTemp = globalFunctions.convertKelvinToCelsius(value: currentViewModel.currentTemp)
             let minTemp = globalFunctions.convertKelvinToCelsius(value: currentViewModel.minTemp)
@@ -137,21 +131,25 @@ class ViewController: UIViewController {
         }
     }
     
-    @objc func hamburgerButtonPressed(_ sender: Any) {  sideMenuConstraint.constant = 0
+    @objc func hamburgerButtonPressed(_ sender: Any) {
+        
+        sideMenuConstraint.constant = 0
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded() })
         navigationItem.leftBarButtonItems = []
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch? = touches.first
         if touch?.view != sideMenuView {
             sideMenuConstraint.constant = -320
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.layoutIfNeeded()
+            })
             navigationItem.leftBarButtonItems = [
                 UIBarButtonItem(image: UIImage(named: "icon_menu_white"), style: .done, target: self, action: #selector(hamburgerButtonPressed)),
                 UIBarButtonItem(image: UIImage(named: "logo_splash"), style: .done, target: self, action: nil)
             ]
         }
     }
-    
-    
-    
 }
 

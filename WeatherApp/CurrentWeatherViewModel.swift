@@ -115,78 +115,10 @@ extension CurrentWeatherViewModel {
     private func updateWind(weatherModel: WeatherModel) -> Double {
         return  weatherModel.wind.speed
     }
-    
-    
-    
 }
 
 extension CurrentWeatherViewModel {
-    
     func convertDoubleToString(value: Double) -> String {
         return String(format: "%.0f", value)
     }
-    
-    
 }
-//
-//  CurrentWeatherViewModel.swift
-//  WeatherApp
-//
-//  Created by Abhilash k George on 24/02/22.
-//
-
-//    import Foundation
-//    import UIKit
-//
-//    public class CurrentWeatherViewModel {
-//        var timeZone: Int
-//        var name: String
-//        var country: String
-//        var isFavouriteSelected: Bool?
-//        var weatherIcon: String
-//        var currentTemp: Double
-//        var isDegreeConversionSelected: Bool?
-//        var status: String
-//        var minTemp: Double
-//        var maxTemp: Double
-//        var percepitation: Double
-//        var humudity: Int
-//        var wind: Double
-//
-//         var weatherService: Service
-//
-//        init(model: WeatherModel, weatherService: Service) {
-//            self.timeZone = model.timezone
-//            self.name = model.name
-//            self.country = model.sys.country
-//            self.weatherIcon = model.weather.last?.icon ?? ""
-//            self.currentTemp = model.main.temp
-//            self.status = model.weather.last?.main ?? ""
-//            self.minTemp = model.main.temp_min
-//            self.maxTemp = model.main.temp_max
-//            self.percepitation = model.main.feels_like
-//            self.humudity = model.main.humidity
-//            self.wind = model.wind.speed
-//            self.weatherService = weatherService
-//        }
-//
-//        func refresh() {
-//            weatherService.getWeatherData({ weather in
-//                DispatchQueue.main.async {
-//                    self.timeZone = weather.timezone
-//                    self.name = weather.name
-//                    self.country = weather.sys.country
-//                    self.weatherIcon = weather.weather.last?.icon ?? ""
-//                    self.currentTemp = weather.main.temp
-//                    self.status = weather.weather.last?.main ?? ""
-//                    self.minTemp = weather.main.temp_min
-//                    self.maxTemp = weather.main.temp_max
-//                    self.percepitation = weather.main.feels_like
-//                    self.humudity = weather.main.humidity
-//                    self.wind = weather.wind.speed
-//                }
-//            })
-//        }
-//    }
-
-//}
