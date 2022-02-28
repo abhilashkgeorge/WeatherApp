@@ -11,9 +11,9 @@ import CoreLocation
 class GlobalFunctions {
   
     func convertKelvinToCelsius(value: Double) -> String {
-        let res = value - 273.15
-        let finalVal = Int(res)
-        return "\(finalVal)"
+        let celsius = value - 273.15
+        let result = Int(celsius)
+        return "\(result)"
     }
     
     func convertKelvinToFahrenheit(value: Double) -> String {

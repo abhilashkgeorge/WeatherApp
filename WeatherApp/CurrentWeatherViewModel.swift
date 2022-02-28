@@ -8,11 +8,7 @@
 import Foundation
 import UIKit
 
-private let dateFormatter: DateFormatter = {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "EEE, dd MMM yyyy hh:mm a"
-    return dateFormatter
-}()
+
 
 public struct CurrentWeatherViewModel {
     
@@ -24,10 +20,10 @@ public struct CurrentWeatherViewModel {
     private(set) var isFavouriteSelected: Bool? = false
     private(set) var weatherIcon: String = ""
     private(set) var description: String = ""
-    private(set) var currentTemp: String = ""
+    private(set) var currentTemp: Double = 0.0
     private(set) var isDegreeConversionSelected: Bool? = false
     private(set) var status: String = ""
-    private(set) var minTemp: String = ""
+    private(set) var minTemp: Double = 0.0
     private(set) var maxTemp: Double = 0.0
     private(set) var percepitation: Double = 0.0
     private(set) var humudity: Int = 0
@@ -56,6 +52,12 @@ public struct CurrentWeatherViewModel {
     }
 }
 
+private let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "EEE, dd MMM yyyy hh:mm a"
+    return dateFormatter
+}()
+
 extension CurrentWeatherViewModel {
     
     private func updateDt(weatherModel: WeatherModel) -> String {
@@ -81,17 +83,16 @@ extension CurrentWeatherViewModel {
         return icon
     }
     
-    private func updateCurrentTemp(weatherModel: WeatherModel) -> String {
-        let celciusValue = globalFunctions.convertKelvinToCelsius(value: weatherModel.main.temp)
-        return celciusValue
+    private func updateCurrentTemp(weatherModel: WeatherModel) -> Double {
+        return weatherModel.main.temp
     }
     
     private func updateStatus(weatherModel: WeatherModel) -> String {
         return weatherModel.weather.description
     }
     
-    private func updateMinTemp(weatherModel: WeatherModel) -> String {
-        return convertDoubleToString(value: weatherModel.main.temp_min)
+    private func updateMinTemp(weatherModel: WeatherModel) -> Double {
+        return weatherModel.main.temp_min
     }
     
     private func updateDescription(weatherModel: WeatherModel) -> String {

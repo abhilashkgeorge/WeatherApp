@@ -11,6 +11,7 @@ import SwiftUI
 
 class ViewController: UIViewController {
     private let apiManager = APIManager()
+    let globalFunctions = GlobalFunctions()
     //var location = Location()
     //Mark: Connection elements from storyboard
     private(set) var currentViewModel: CurrentWeatherViewModel?
@@ -31,9 +32,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var sideMenuConstraint: NSLayoutConstraint!
     @IBOutlet weak var sideMenuView: UIView!
     
-    @IBAction func segmentedControlToggled(_ sender: Any) {
-        
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureItems()
+        getWeather()
     }
+    
+    
     var searchResult: WeatherModel? {
         didSet {
             guard let searchResult = searchResult else {
@@ -50,41 +56,34 @@ class ViewController: UIViewController {
         guard let currentViewModel = currentViewModel else {
             return
         }
+        segmentedControlToggled(Any.self)
         currentDayDateTimeLabel.text = "\(currentViewModel.dt)"
         LocationLabel.text = currentViewModel.name + ", State Name"
-        //favouriteHeartIconButton = currentViewModel.country
-        currentTemperatureLabel.text = "\(currentViewModel.currentTemp)"
+        //currentTemperatureLabel.text = ""
         weatherStatusIcon.image = UIImage(named: "icon_mostly_sunny_small")
         weatherStatusLabel.text =  currentViewModel.description
-        //  segmentedControlButton = currentViewModel.country
-        minMaxTempLabel.text = "\(currentViewModel.minTemp)-\(currentViewModel.maxTemp)"
+        //minMaxTempLabel.text = "\(currentViewModel.minTemp)-\(currentViewModel.maxTemp)"
         percipitationValue.text = "0%"
         humidityLabel.text = "\(currentViewModel.humudity)"
         windSpeedLabel.text = "\(currentViewModel.wind)"
         
         
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureItems()
-        getWeather()
-    }
     
     private func getWeather() {
         apiManager.getWeather() { (weather, error) in
             if let error = error {
-                print("Get weather error: \(error.localizedDescription)")
+                print("Get weather error: \(error)")
                 return
             }
             guard let weather = weather  else { return }
             self.searchResult = weather
-            print("Current Weather Object:")
-            print(weather)
         }
     }
     
     
     func configureItems() {
+        segmentedControlToggled(Any.self)
         sideMenuConstraint.constant = -320
         view.backgroundColor = UIColor(named: "bg_color")
         navigationController?.navigationBar.tintColor = .white
@@ -98,6 +97,36 @@ class ViewController: UIViewController {
         ]
     }
     
+    @IBAction func segmentedControlToggled(_ sender: Any) {
+        guard let currentViewModel = currentViewModel else {
+            return
+        }
+
+        segmentedControlButton.layer.borderWidth = 1.0
+        segmentedControlButton.layer.cornerRadius = 5.0
+        segmentedControlButton.layer.borderColor = UIColor.white.cgColor
+        segmentedControlButton.layer.masksToBounds = true
+        segmentedControlButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for: .selected)
+
+        if segmentedControlButton.selectedSegmentIndex == 0 {
+            let currentTemp = globalFunctions.convertKelvinToCelsius(value: currentViewModel.currentTemp)
+            let minTemp = globalFunctions.convertKelvinToCelsius(value: currentViewModel.minTemp)
+            let maxTemp = globalFunctions.convertKelvinToCelsius(value: currentViewModel.maxTemp)
+            
+            currentTemperatureLabel.text = currentTemp
+            minMaxTempLabel.text = minTemp + "-"  + maxTemp
+        }else {
+            let currentTemp = globalFunctions.convertKelvinToFahrenheit(value: currentViewModel.currentTemp)
+            let minTemp = globalFunctions.convertKelvinToFahrenheit(value: currentViewModel.minTemp)
+            let maxTemp = globalFunctions.convertKelvinToFahrenheit(value: currentViewModel.maxTemp)
+            currentTemperatureLabel.text = currentTemp
+            minMaxTempLabel.text = minTemp + "-"  + maxTemp
+        }
+    }
+    
+    @objc func hamburgerButtonPressed(_ sender: Any) {  sideMenuConstraint.constant = 0
+        navigationItem.leftBarButtonItems = []
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch? = touches.first
         if touch?.view != sideMenuView {
@@ -109,9 +138,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @objc func hamburgerButtonPressed(_ sender: Any) {  sideMenuConstraint.constant = 0
-        navigationItem.leftBarButtonItems = []
-    }
+    
     
 }
 

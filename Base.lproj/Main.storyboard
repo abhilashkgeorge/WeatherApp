@@ -102,6 +102,7 @@
                                     <constraint firstItem="Rie-7j-sXz" firstAttribute="top" secondItem="tCJ-3X-FxO" secondAttribute="top" id="GJP-rr-NzM"/>
                                     <constraint firstAttribute="trailing" secondItem="BDf-9I-dtl" secondAttribute="trailing" id="OmJ-cF-HE7"/>
                                     <constraint firstAttribute="bottom" secondItem="llV-li-ND3" secondAttribute="bottom" id="Sxb-uc-9hz"/>
+                                    <constraint firstItem="BDf-9I-dtl" firstAttribute="leading" secondItem="N6A-Is-xQq" secondAttribute="trailing" id="aoK-Qh-UV2"/>
                                     <constraint firstItem="llV-li-ND3" firstAttribute="centerX" secondItem="tCJ-3X-FxO" secondAttribute="centerX" id="cwc-BT-FyW"/>
                                     <constraint firstItem="N6A-Is-xQq" firstAttribute="top" secondItem="Rie-7j-sXz" secondAttribute="bottom" constant="15" id="qvF-F3-4s1"/>
                                     <constraint firstAttribute="height" constant="175" id="rOK-To-Sph"/>
@@ -109,7 +110,7 @@
                                     <constraint firstItem="Rie-7j-sXz" firstAttribute="centerX" secondItem="tCJ-3X-FxO" secondAttribute="centerX" id="yUg-8O-K1b"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gUa-ii-8qf">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gUa-ii-8qf">
                                 <rect key="frame" x="0.0" y="0.0" width="270" height="1366"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nzp-PK-L78">
@@ -196,7 +197,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22°c - 33°c" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="89B-nr-axP">
-                                                <rect key="frame" x="20" y="20.5" width="88.5" height="21.5"/>
+                                                <rect key="frame" x="15.5" y="20.5" width="88.5" height="21.5"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="18"/>
                                                 <color key="textColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -209,8 +210,8 @@
                                             <constraint firstItem="8DA-ca-43W" firstAttribute="top" secondItem="LRO-CC-9EV" secondAttribute="top" id="8Db-DE-foH"/>
                                             <constraint firstItem="hWT-Xt-k7D" firstAttribute="top" secondItem="LRO-CC-9EV" secondAttribute="top" id="Gl6-b2-gvJ"/>
                                             <constraint firstItem="89B-nr-axP" firstAttribute="top" secondItem="hWT-Xt-k7D" secondAttribute="bottom" constant="5" id="Gz9-Bg-bKV"/>
+                                            <constraint firstItem="89B-nr-axP" firstAttribute="centerX" secondItem="hWT-Xt-k7D" secondAttribute="centerX" id="HA0-qH-DK2"/>
                                             <constraint firstAttribute="width" constant="94" id="Ttf-pI-E3r"/>
-                                            <constraint firstItem="89B-nr-axP" firstAttribute="leading" secondItem="LRO-CC-9EV" secondAttribute="leading" constant="20" id="efx-WO-Ebb"/>
                                             <constraint firstAttribute="trailing" secondItem="hWT-Xt-k7D" secondAttribute="trailing" constant="6" id="kyz-Qt-frH"/>
                                         </constraints>
                                     </view>
