@@ -96,7 +96,20 @@ class ViewController: UIViewController {
             UIBarButtonItem(image: UIImage(named: "logo_splash"), style: .done, target: self, action: nil)
         ]
     }
-    
+    var isActive = false
+    @IBAction func favouriteButtonTapped(_ sender: Any) {
+        
+        
+        if isActive == false
+        {
+            favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite_active"), for: .normal)
+            isActive = true
+        } else {
+            favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite"), for: .normal)
+            isActive = false
+        }
+        
+    }
     @IBAction func segmentedControlToggled(_ sender: Any) {
         guard let currentViewModel = currentViewModel else {
             return

@@ -47,6 +47,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="58" height="43"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="icon_favourite" title=" "/>
+                                        <connections>
+                                            <action selector="favouriteButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hk5-wS-toH"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add to favourite" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gcf-Tu-3WD">
                                         <rect key="frame" x="58" y="0.0" width="93.5" height="43"/>
@@ -110,7 +113,7 @@
                                     <constraint firstItem="Rie-7j-sXz" firstAttribute="centerX" secondItem="tCJ-3X-FxO" secondAttribute="centerX" id="yUg-8O-K1b"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gUa-ii-8qf">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gUa-ii-8qf">
                                 <rect key="frame" x="0.0" y="0.0" width="270" height="1366"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nzp-PK-L78">
