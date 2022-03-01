@@ -6,6 +6,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 //
 
 class GlobalFunctions {
@@ -21,4 +22,6 @@ class GlobalFunctions {
         let result = Int(fahrenheit)
         return "\(result)"
     }
+    
+    
 }

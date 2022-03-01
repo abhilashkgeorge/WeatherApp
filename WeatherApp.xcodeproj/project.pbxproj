@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F5653B3027CD065B00127B00 /* FavouritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5653B2F27CD065B00127B00 /* FavouritesViewModel.swift */; };
+		F5653B3227CD067900127B00 /* RecentSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5653B3127CD067900127B00 /* RecentSearchViewModel.swift */; };
+		F5653B3627CD085A00127B00 /* RecentsFavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5653B3527CD085A00127B00 /* RecentsFavouritesViewController.swift */; };
 		F59CF38627C4BA0600323AD5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59CF38527C4BA0600323AD5 /* AppDelegate.swift */; };
 		F59CF38827C4BA0600323AD5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59CF38727C4BA0600323AD5 /* SceneDelegate.swift */; };
 		F59CF38A27C4BA0600323AD5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59CF38927C4BA0600323AD5 /* ViewController.swift */; };
@@ -23,6 +26,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F5653B2F27CD065B00127B00 /* FavouritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewModel.swift; sourceTree = "<group>"; };
+		F5653B3127CD067900127B00 /* RecentSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchViewModel.swift; sourceTree = "<group>"; };
+		F5653B3527CD085A00127B00 /* RecentsFavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsFavouritesViewController.swift; sourceTree = "<group>"; };
 		F59CF38227C4BA0600323AD5 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F59CF38527C4BA0600323AD5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F59CF38727C4BA0600323AD5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				F59CF3AB27C7A26E00323AD5 /* CurrentWeatherViewModel.swift */,
+				F5653B2F27CD065B00127B00 /* FavouritesViewModel.swift */,
+				F5653B3127CD067900127B00 /* RecentSearchViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -115,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				F59CF38927C4BA0600323AD5 /* ViewController.swift */,
+				F5653B3527CD085A00127B00 /* RecentsFavouritesViewController.swift */,
 			);
 			path = VIewController;
 			sourceTree = "<group>";
@@ -211,13 +220,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5653B3027CD065B00127B00 /* FavouritesViewModel.swift in Sources */,
 				F59CF38A27C4BA0600323AD5 /* ViewController.swift in Sources */,
 				F59CF3A127C63B1E00323AD5 /* Service.swift in Sources */,
 				F59CF3B727CBFC3400323AD5 /* GlobalFunctions.swift in Sources */,
 				F59CF3A727C6539C00323AD5 /* Location.swift in Sources */,
+				F5653B3227CD067900127B00 /* RecentSearchViewModel.swift in Sources */,
 				F59CF3B527CBCDC400323AD5 /* APIManager.swift in Sources */,
 				F59CF38627C4BA0600323AD5 /* AppDelegate.swift in Sources */,
 				F59CF38827C4BA0600323AD5 /* SceneDelegate.swift in Sources */,
+				F5653B3627CD085A00127B00 /* RecentsFavouritesViewController.swift in Sources */,
 				F59CF3A327C63BE400323AD5 /* WeatherModel.swift in Sources */,
 				F59CF3AA27C66B4900323AD5 /* CustomClasses.swift in Sources */,
 				F59CF3AC27C7A26E00323AD5 /* CurrentWeatherViewModel.swift in Sources */,

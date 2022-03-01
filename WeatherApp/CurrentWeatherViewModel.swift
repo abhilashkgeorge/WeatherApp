@@ -8,10 +8,7 @@
 import Foundation
 import UIKit
 
-
-
 public struct CurrentWeatherViewModel {
-    
     var globalFunctions = GlobalFunctions()
     let weatherModel: WeatherModel
     private(set) var dt: String = ""
@@ -121,4 +118,5 @@ extension CurrentWeatherViewModel {
     func convertDoubleToString(value: Double) -> String {
         return String(format: "%.0f", value)
     }
+
 }

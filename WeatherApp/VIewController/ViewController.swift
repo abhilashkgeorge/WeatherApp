@@ -83,16 +83,26 @@ class ViewController: UIViewController {
     func configureItems() {
         segmentedControlToggled(Any.self)
         sideMenuConstraint.constant = -320
-        view.backgroundColor = UIColor(named: "bg_color")
         navigationController?.navigationBar.tintColor = .white
         
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(named: "icon_search_white"), style: .done, target: self, action: nil)
+            UIBarButtonItem(image: UIImage(named: "icon_search_white"), style: .done, target: self, action: #selector(searchItemTapped))
         ]
         navigationItem.leftBarButtonItems = [
             UIBarButtonItem(image: UIImage(named: "icon_menu_white"), style: .done, target: self, action: #selector(hamburgerButtonPressed)),
             UIBarButtonItem(image: UIImage(named: "logo_splash"), style: .done, target: self, action: nil)
         ]
+    }
+                            
+                            @objc func searchItemTapped() {
+                                
+                            }
+    
+    @IBAction func homeButtonTapped(_ sender: Any) {
+        configureItems()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
     
     
@@ -104,6 +114,7 @@ class ViewController: UIViewController {
         }
         isFavoritesActive = !isFavoritesActive
     }
+    
     @IBAction func segmentedControlToggled(_ sender: Any) {
         guard let currentViewModel = currentViewModel else {
             return
@@ -141,14 +152,11 @@ class ViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch? = touches.first
         if touch?.view != sideMenuView {
-            sideMenuConstraint.constant = -320
+            configureItems()
             UIView.animate(withDuration: 0.3, animations: {
                 self.view.layoutIfNeeded()
             })
-            navigationItem.leftBarButtonItems = [
-                UIBarButtonItem(image: UIImage(named: "icon_menu_white"), style: .done, target: self, action: #selector(hamburgerButtonPressed)),
-                UIBarButtonItem(image: UIImage(named: "logo_splash"), style: .done, target: self, action: nil)
-            ]
+           
         }
     }
 }
