@@ -805,28 +805,6 @@
             </objects>
             <point key="canvasLocation" x="2280" y="-9"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="gtY-LE-JkB">
-            <objects>
-                <viewController id="hUv-cF-GYf" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="a6E-Q1-v9s">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" barStyle="black" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="05G-x8-I7b">
-                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="sT3-xk-Gyd"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kay-bL-d3T" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2972" y="-1"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="3nC-wd-wS3">
             <objects>

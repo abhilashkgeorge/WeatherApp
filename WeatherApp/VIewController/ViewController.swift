@@ -93,10 +93,34 @@ class ViewController: UIViewController {
             UIBarButtonItem(image: UIImage(named: "logo_splash"), style: .done, target: self, action: nil)
         ]
     }
-                            
-                            @objc func searchItemTapped() {
-                                
-                            }
+    
+    @objc func searchItemTapped() {
+        
+        let searchView = UITableView()
+        searchView.backgroundColor = .white
+        searchView.frame = super.view.bounds
+        let searchBar = UISearchBar()
+        let searchImage = UIImage(named: "back_button")
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.setImage(searchImage, for: .search, state: .normal)
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.backgroundColor = UIColor.white
+            
+        }
+        view.addSubview(searchView)
+        view.addSubview(searchBar)
+        
+        navigationItem.rightBarButtonItems = []
+        navigationItem.leftBarButtonItems = []
+        
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: searchView.topAnchor,constant: 50),
+            searchBar.leftAnchor.constraint(equalTo: searchView.leftAnchor),
+            searchBar.rightAnchor.constraint(equalTo: searchView.rightAnchor),
+            searchBar.heightAnchor.constraint(equalToConstant: 50),
+            searchBar.widthAnchor.constraint(equalToConstant: 500)
+        ])
+    }
     
     @IBAction func homeButtonTapped(_ sender: Any) {
         configureItems()
@@ -156,7 +180,7 @@ class ViewController: UIViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 self.view.layoutIfNeeded()
             })
-           
+            
         }
     }
 }

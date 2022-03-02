@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+ 
 
 enum Urls: String{
     
@@ -17,16 +18,16 @@ enum Urls: String{
 
 
 class Service :NSObject {
-    func getImageFromString(value: String, weatherModel: WeatherModel) -> UIImage {
+    func getImageFromString(imageCode: String, weatherModel: WeatherModel) -> UIImage {
         
        
         
         let image: UIImage = UIImage(named: "icon_precipitation_info")!
         
-        guard let imageString = weatherModel.weather.last?.icon else{ return image
-        }
-        let imageUrl = "http://openweathermap.org/img/w/" + imageString + ".png"
-        guard let url = URL(string: imageUrl) else { return  image}
+       // guard let imageString = weatherModel.weather.last?.icon else{ return image
+       // }
+        let imageUrl = "http://openweathermap.org/img/w/" + imageCode + ".png"
+
        // let url = URL(fileURLWithPath: imageUrl) #
         return image
     }
