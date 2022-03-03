@@ -9,8 +9,27 @@ import Foundation
 
 class APIManager {
     
-    let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Bangalore&APPID=5ea7139e9797a5d9d28a0b895063e7a5"
+    let baseURL = "https://api.openweathermap.org/data/2.5/weather" //"https://api.openweathermap.org/data/2.5/weather?q=Bangalore&APPID=5ea7139e9797a5d9d28a0b895063e7a5"
+    //https://api.openweathermap.org/data/2.5/weather??APPID=5ea7139e9797a5d9d28a0b895063e7a5&q=Bangalore"
+    let APIKey = "5ea7139e9797a5d9d28a0b895063e7a5"
     
+    var urlString: String = ""
+    
+//    let location = Location()
+    
+    func getWeatherByCity(city: String) {
+        let weatherRequestURL = "\(baseURL)?q=\(city)&APPID=\(APIKey)"
+            urlString = weatherRequestURL
+        print(urlString)
+
+               
+    }
+    
+    func getWeatherByCoordinates(latitude: Double, longitude: Double) {
+        let weatherRequestURL = "\(baseURL)?APPID=\(APIKey)&lat=\(latitude)&lon=\(longitude)"
+            urlString = weatherRequestURL
+    }
+
     func getWeather(completion: @escaping (_ weather: WeatherModel?, _ error: Error?) -> Void) {
         getJSONFromURL(urlString: urlString) { (data, error) in
             guard let data = data, error == nil else {
@@ -26,7 +45,7 @@ class APIManager {
             })
         }
     }
-
+    
 }
 
 extension APIManager {
@@ -49,7 +68,7 @@ extension APIManager {
         }
         task.resume()
     }
-
+    
     private func createWeatherObjectWith(json: Data, completion: @escaping (_ data: WeatherModel?, _ error: Error?) -> Void) {
         do {
             let decoder = JSONDecoder()

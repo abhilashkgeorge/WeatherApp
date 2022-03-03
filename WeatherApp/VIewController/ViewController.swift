@@ -11,8 +11,12 @@ import SwiftUI
 
 class ViewController: UIViewController {
     private let apiManager = APIManager()
+    let location = Location()
     let globalFunctions = GlobalFunctions()
     var isFavoritesActive = true
+    var isSearchByLocation = false
+    let searchView = UITableView()
+    let searchBar = UISearchBar()
     //Mark: Connection elements from storyboard
     private(set) var currentViewModel: CurrentWeatherViewModel?
     @IBOutlet weak var currentDayDateTimeLabel: UILabel!
@@ -23,11 +27,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var weatherStatusIcon: UIImageView!
     @IBOutlet weak var segmentedControlButton: UISegmentedControl!
     @IBOutlet weak var minMaxTempLabel: UILabel!
-    //Mark: Percipitation Config
     @IBOutlet weak var percipitationValue: UILabel!
-    //Mark: Humidity
     @IBOutlet weak var humidityLabel: UILabel!
-    //pending for wind params
     @IBOutlet weak var windSpeedLabel: UILabel!
     @IBOutlet weak var sideMenuConstraint: NSLayoutConstraint!
     @IBOutlet weak var sideMenuView: UIView!
@@ -69,7 +70,23 @@ class ViewController: UIViewController {
     }
     
     private func getWeather() {
-        apiManager.getWeather() { (weather, error) in
+        if isSearchByLocation == false {
+            location.configureCurrentLocation { location in
+                self.apiManager.getWeatherByCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                self.subFunction()
+            }
+        }else {
+            if let searchText = searchBar.text {
+                location.configureCurrentLocation { location in
+                self.apiManager.getWeatherByCity(city: searchText)
+                self.subFunction()
+            }
+        }
+    }
+    }
+    
+    func subFunction() {
+        self.apiManager.getWeather() { (weather, error) in
             if let error = error {
                 print("Get weather error: \(error)")
                 return
@@ -79,10 +96,13 @@ class ViewController: UIViewController {
         }
     }
     
-    
     func configureItems() {
         segmentedControlToggled(Any.self)
         sideMenuConstraint.constant = -320
+        configureNavigationBar()
+    }
+    
+    func configureNavigationBar() {
         navigationController?.navigationBar.tintColor = .white
         
         navigationItem.rightBarButtonItems = [
@@ -94,33 +114,6 @@ class ViewController: UIViewController {
         ]
     }
     
-    @objc func searchItemTapped() {
-        
-        let searchView = UITableView()
-        searchView.backgroundColor = .white
-        searchView.frame = super.view.bounds
-        let searchBar = UISearchBar()
-        let searchImage = UIImage(named: "back_button")
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.setImage(searchImage, for: .search, state: .normal)
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = UIColor.white
-            
-        }
-        view.addSubview(searchView)
-        view.addSubview(searchBar)
-        
-        navigationItem.rightBarButtonItems = []
-        navigationItem.leftBarButtonItems = []
-        
-        NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: searchView.topAnchor,constant: 50),
-            searchBar.leftAnchor.constraint(equalTo: searchView.leftAnchor),
-            searchBar.rightAnchor.constraint(equalTo: searchView.rightAnchor),
-            searchBar.heightAnchor.constraint(equalToConstant: 50),
-            searchBar.widthAnchor.constraint(equalToConstant: 500)
-        ])
-    }
     
     @IBAction func homeButtonTapped(_ sender: Any) {
         configureItems()
@@ -180,8 +173,54 @@ class ViewController: UIViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 self.view.layoutIfNeeded()
             })
-            
         }
     }
 }
 
+extension ViewController: UISearchBarDelegate {
+    
+    @objc func searchItemTapped() {
+        searchView.backgroundColor = .white
+        searchView.frame = super.view.bounds
+        searchBar.delegate = self
+        searchBar.showsCancelButton = true
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.backgroundColor = UIColor.white
+            textfield.placeholder = "Search for City"
+        }
+        
+        view.addSubview(searchView)
+        view.addSubview(searchBar)
+        
+        navigationItem.rightBarButtonItems = []
+        navigationItem.leftBarButtonItems = []
+        
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: searchView.topAnchor,constant: 50),
+            searchBar.leftAnchor.constraint(equalTo: searchView.leftAnchor),
+            searchBar.rightAnchor.constraint(equalTo: searchView.rightAnchor),
+            searchBar.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        hideSearch()
+
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let text = searchBar.text {
+            isSearchByLocation = true
+            getWeather()
+            hideSearch()
+        }
+    }
+    
+    func hideSearch() {
+        searchView.removeFromSuperview()
+        searchBar.removeFromSuperview()
+        configureNavigationBar()
+    }
+    
+}
