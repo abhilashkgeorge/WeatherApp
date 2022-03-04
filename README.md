@@ -1,22 +1,23 @@
 # WeatherApp
 Assignment
 Accomplished Tasks : 
-UI [ I was not able to match the background gradient colour  with that of the rgba vlaues provided in invision, trying to find out where I went Wrong]
 
-Successsfully made the API call and was able to display the results in the home UI . Most of my time was used up in understanding the mvvm architecture. 
-
+UI 
+Splash Screen
+Successsfully made the API call and was able to display the results in the home UI .
+implemented MVVM Architecture and is able to display the result from the view model directly to the view.
+Search Functionality 
+Side Menu Bar
 
 
 To Do's:
 
 State Name. Since the API Doesnot provide us with the name of the state , I am working on implementing the state name using CoreLocation.
 
-Search Functionality 
-
-Favourites
+Favourites and recents Functionality
 
 UI customisation and refinement
 
-Constraints and landscape support
+andscape support
 
 
