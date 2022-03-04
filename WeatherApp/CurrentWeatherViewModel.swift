@@ -28,7 +28,7 @@ public struct CurrentWeatherViewModel {
     
     init(weatherModel: WeatherModel) {
         self.weatherModel = weatherModel
-        updateProperties()
+        updateProperties() 
     }
     
     mutating func updateProperties() {
@@ -45,7 +45,6 @@ public struct CurrentWeatherViewModel {
         percepitation =  updatePercipitation(weatherModel: weatherModel)
         humudity =  updateHumidity(weatherModel: weatherModel)
         wind =  updateWind(weatherModel: weatherModel)
-        
     }
 }
 

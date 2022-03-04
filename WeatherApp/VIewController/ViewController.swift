@@ -65,8 +65,6 @@ class ViewController: UIViewController {
         percipitationValue.text = "0%"
         humidityLabel.text = "\(currentViewModel.humudity)"
         windSpeedLabel.text = "\(currentViewModel.wind)"
-        
-        
     }
     
     private func getWeather() {
@@ -78,11 +76,11 @@ class ViewController: UIViewController {
         }else {
             if let searchText = searchBar.text {
                 location.configureCurrentLocation { location in
-                self.apiManager.getWeatherByCity(city: searchText)
-                self.subFunction()
+                    self.apiManager.getWeatherByCity(city: searchText)
+                    self.subFunction()
+                }
             }
         }
-    }
     }
     
     func subFunction() {
@@ -206,15 +204,13 @@ extension ViewController: UISearchBarDelegate {
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         hideSearch()
-
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let text = searchBar.text {
-            isSearchByLocation = true
-            getWeather()
-            hideSearch()
-        }
+        isSearchByLocation = true
+        getWeather()
+        hideSearch()
     }
     
     func hideSearch() {

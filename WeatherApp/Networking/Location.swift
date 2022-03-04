@@ -28,14 +28,9 @@ class Location: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) 
     {
-    
         guard let location = locations.last else { return}
-        let latitude = location.coordinate.latitude
-        let longitude = location.coordinate.longitude
         completion?(location)
         locationManager.stopUpdatingLocation()
-
-
     }
     
 }
