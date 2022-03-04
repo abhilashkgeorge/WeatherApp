@@ -18,6 +18,6 @@ Favourites and recents Functionality
 
 UI customisation and refinement
 
-andscape support
+Landscape support
 
 
