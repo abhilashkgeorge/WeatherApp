@@ -13,11 +13,13 @@ class ViewController: UIViewController {
     private let apiManager = APIManager()
     let location = Location()
     let globalFunctions = GlobalFunctions()
-    var isFavoritesActive = true
+    var isFavoritesActive: Bool = false
     var isSearchByLocation = false
     let searchView = UITableView()
     let searchBar = UISearchBar()
-    //Mark: Connection elements from storyboard
+    
+    var favourites: [String]?
+    //MARK: Connection elements from storyboard
     private(set) var currentViewModel: CurrentWeatherViewModel?
     @IBOutlet weak var currentDayDateTimeLabel: UILabel!
     @IBOutlet weak var LocationLabel: UILabel!
@@ -40,6 +42,22 @@ class ViewController: UIViewController {
         getWeather()
     }
     
+    
+       override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           
+           if segue.identifier == String.Identifiers.favouriteViewControllerIdentifier.rawValue {
+               let vc = segue.destination as? RecentsFavouritesViewController
+               vc?.navigationItem.title = "Favourite"
+               vc?.navigationController?.navigationBar.backgroundColor = .white
+           }
+           
+           if segue.identifier == String.Identifiers.recentsViewControllerIdentifier.rawValue {
+               let vc = segue.destination as? RecentsFavouritesViewController
+               vc?.navigationItem.title = "Recent Search"
+               vc?.navigationController?.navigationBar.backgroundColor = .white
+               vc?.isRecentsSegue = true
+           }
+       }
     
     var searchResult: WeatherModel? {
         didSet {
@@ -65,6 +83,7 @@ class ViewController: UIViewController {
         percipitationValue.text = "0%"
         humidityLabel.text = "\(currentViewModel.humudity)"
         windSpeedLabel.text = "\(currentViewModel.wind)"
+        isFavoritesActive = true
     }
     
     private func getWeather() {
@@ -122,12 +141,25 @@ class ViewController: UIViewController {
     
     
     @IBAction func favouriteButtonTapped(_ sender: Any) {
-        if isFavoritesActive {
-            favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite_active"), for: .normal)
+        
+        //guard let currentViewModel = currentViewModel else { return }
+        
+        if favourites == nil {
+            if isFavoritesActive{
+                addToFavourites()
+            } else {
+                favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite"), for: .normal)
+            }
+            isFavoritesActive = !isFavoritesActive
         } else {
-            favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite"), for: .normal)
+            
         }
-        isFavoritesActive = !isFavoritesActive
+    }
+    
+    
+    func addToFavourites() {
+        
+        favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite_active"), for: .normal)
     }
     
     @IBAction func segmentedControlToggled(_ sender: Any) {
@@ -208,6 +240,7 @@ extension ViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
         isSearchByLocation = true
         getWeather()
         hideSearch()

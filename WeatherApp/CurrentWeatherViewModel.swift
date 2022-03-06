@@ -14,11 +14,11 @@ public struct CurrentWeatherViewModel {
     private(set) var dt: String = ""
     private(set) var name: String = ""
     private(set) var country: String = ""
-    private(set) var isFavouriteSelected: Bool? = false
+    private(set) var isFavouriteSelected: Bool = true
     private(set) var weatherIcon: String = ""
     private(set) var description: String = ""
     private(set) var currentTemp: Double = 0.0
-    private(set) var isDegreeConversionSelected: Bool? = false
+   // private(set) var isDegreeConversionSelected: Bool = false
     private(set) var status: String = ""
     private(set) var minTemp: Double = 0.0
     private(set) var maxTemp: Double = 0.0

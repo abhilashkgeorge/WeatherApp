@@ -22,7 +22,10 @@
 		F59CF3B527CBCDC400323AD5 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59CF3B427CBCDC200323AD5 /* APIManager.swift */; };
 		F59CF3B727CBFC3400323AD5 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59CF3B627CBFC3400323AD5 /* GlobalFunctions.swift */; };
 		F5D7B94927D1D7AB00B9BFE3 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D7B94827D1D7AB00B9BFE3 /* CustomCell.swift */; };
-		F5D7B94C27D1DC4A00B9BFE3 /* CustomClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D7B94B27D1DC4A00B9BFE3 /* CustomClass.swift */; };
+		F5EE9B9627D4C49D0041260A /* Favourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EE9B9527D4C49D0041260A /* Favourites.swift */; };
+		F5EE9B9827D4C4E80041260A /* RecentSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EE9B9727D4C4E80041260A /* RecentSearches.swift */; };
+		F5EE9B9A27D4DA420041260A /* FavouritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EE9B9927D4DA420041260A /* FavouritesViewModel.swift */; };
+		F5EE9B9C27D4DE0B0041260A /* RecentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EE9B9B27D4DE0B0041260A /* RecentsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +48,10 @@
 		F59CF3B427CBCDC200323AD5 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		F59CF3B627CBFC3400323AD5 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		F5D7B94827D1D7AB00B9BFE3 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
-		F5D7B94B27D1DC4A00B9BFE3 /* CustomClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomClass.swift; sourceTree = "<group>"; };
+		F5EE9B9527D4C49D0041260A /* Favourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favourites.swift; sourceTree = "<group>"; };
+		F5EE9B9727D4C4E80041260A /* RecentSearches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearches.swift; sourceTree = "<group>"; };
+		F5EE9B9927D4DA420041260A /* FavouritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FavouritesViewModel.swift; path = ../../../../../Users/abhilashkgeorge/Desktop/FavouritesViewModel.swift; sourceTree = "<group>"; };
+		F5EE9B9B27D4DE0B0041260A /* RecentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				F59CF3AB27C7A26E00323AD5 /* CurrentWeatherViewModel.swift */,
+				F5EE9B9927D4DA420041260A /* FavouritesViewModel.swift */,
+				F5EE9B9B27D4DE0B0041260A /* RecentsViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -151,8 +159,9 @@
 		F5D7B94A27D1DC1B00B9BFE3 /* Recents and Favourites  */ = {
 			isa = PBXGroup;
 			children = (
+				F5EE9B9527D4C49D0041260A /* Favourites.swift */,
+				F5EE9B9727D4C4E80041260A /* RecentSearches.swift */,
 				F5D7B94827D1D7AB00B9BFE3 /* CustomCell.swift */,
-				F5D7B94B27D1DC4A00B9BFE3 /* CustomClass.swift */,
 			);
 			path = "Recents and Favourites ";
 			sourceTree = "<group>";
@@ -229,17 +238,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				F59CF38A27C4BA0600323AD5 /* ViewController.swift in Sources */,
+				F5EE9B9C27D4DE0B0041260A /* RecentsViewModel.swift in Sources */,
 				F59CF3A127C63B1E00323AD5 /* Service.swift in Sources */,
 				F59CF3B727CBFC3400323AD5 /* GlobalFunctions.swift in Sources */,
 				F59CF3A727C6539C00323AD5 /* Location.swift in Sources */,
 				F59CF3B527CBCDC400323AD5 /* APIManager.swift in Sources */,
+				F5EE9B9627D4C49D0041260A /* Favourites.swift in Sources */,
 				F59CF38627C4BA0600323AD5 /* AppDelegate.swift in Sources */,
 				F59CF38827C4BA0600323AD5 /* SceneDelegate.swift in Sources */,
+				F5EE9B9A27D4DA420041260A /* FavouritesViewModel.swift in Sources */,
 				F5653B3627CD085A00127B00 /* RecentsFavouritesViewController.swift in Sources */,
 				F59CF3A327C63BE400323AD5 /* WeatherModel.swift in Sources */,
 				F59CF3AA27C66B4900323AD5 /* CustomClasses.swift in Sources */,
 				F5D7B94927D1D7AB00B9BFE3 /* CustomCell.swift in Sources */,
-				F5D7B94C27D1DC4A00B9BFE3 /* CustomClass.swift in Sources */,
+				F5EE9B9827D4C4E80041260A /* RecentSearches.swift in Sources */,
 				F59CF3AC27C7A26E00323AD5 /* CurrentWeatherViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

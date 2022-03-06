@@ -7,20 +7,10 @@
 
 import Foundation
 import UIKit
- 
-
-enum Urls: String{
-    
-    case url  = "https://api.openweathermap.org/data/2.5/weather?q=Bangalore&APPID=5ea7139e9797a5d9d28a0b895063e7a5"
-    
-    case urlLatLon = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&APPID=5ea7139e9797a5d9d28a0b895063e7a5"
-}
-
 
 class Service :NSObject {
-    func getImageFromString(imageCode: String, weatherModel: WeatherModel) -> UIImage {
-        
-       
+    func getImageFromString(imageCode: String, weatherModel: WeatherModel)
+    -> UIImage {
         
         let image: UIImage = UIImage(named: "icon_precipitation_info")!
         

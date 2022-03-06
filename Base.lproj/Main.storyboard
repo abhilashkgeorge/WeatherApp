@@ -140,7 +140,7 @@
                                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
                                                 <connections>
-                                                    <segue destination="K4l-ON-X1v" kind="show" animates="NO" id="MCB-Wt-udc"/>
+                                                    <segue destination="K4l-ON-X1v" kind="show" identifier="favouriteScreenIdentifier" animates="NO" id="MCB-Wt-udc"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VYS-xY-jn8">
@@ -154,7 +154,7 @@
                                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
                                                 <connections>
-                                                    <segue destination="K4l-ON-X1v" kind="show" animates="NO" id="xTj-YB-bOb"/>
+                                                    <segue destination="K4l-ON-X1v" kind="show" identifier="recentsScreenIdentifier" animates="NO" id="xTj-YB-bOb"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -510,6 +510,9 @@
                                     <fontDescription key="titleFontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                     <color key="baseForegroundColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="deleteAllButtonTapped:" destination="K4l-ON-X1v" eventType="touchUpInside" id="opo-VY-bXL"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="eo3-Vm-O4z"/>

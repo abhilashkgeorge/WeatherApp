@@ -27,3 +27,24 @@ extension UIColor {
     }
     
 }
+
+extension UIImage {
+    
+    enum AssetImages: String {
+        
+        case Sunny = "icon_mostly_sunny_small"
+        case FavActive = "icon_favourite_active"
+        
+        case FavInactive = "icon_favourite"
+        
+        
+    }
+}
+
+extension String {
+    
+    enum Identifiers: String {
+        case favouriteViewControllerIdentifier = "favouriteScreenIdentifier"
+        case recentsViewControllerIdentifier = "recentsScreenIdentifier"
+    }
+}

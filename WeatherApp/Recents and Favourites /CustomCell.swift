@@ -15,10 +15,16 @@ class CustomCell: UITableViewCell {
     @IBOutlet weak var weatherStatusLabel: UILabel!
     @IBOutlet weak var favouriteHeartIcon: UIImageView!
     
+    func updateCellFavourites(model: Favourites) {
+        placeNameLabel.text = model.location
+        currentTempLabel.text = "\(model.currentTemperature)"
+        currentWeatherIcon.image = UIImage(named: UIImage.AssetImages.Sunny.rawValue)
+        favouriteHeartIcon.image = UIImage(named: UIImage.AssetImages.FavActive.rawValue)
+        weatherStatusLabel.text = model.weatherStatus
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        placeNameLabel.text = "abhilash"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

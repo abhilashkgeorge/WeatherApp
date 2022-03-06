@@ -21,7 +21,6 @@ class WeatherModel: Decodable {
     var timezone: Int
     var id: Int
     var name: String
-    //var cod: Int
 }
 
 struct Weather: Decodable {
