@@ -34,8 +34,10 @@ extension UIImage {
         
         case Sunny = "icon_mostly_sunny_small"
         case FavActive = "icon_favourite_active"
-        
         case FavInactive = "icon_favourite"
+        case SearchIcon = "icon_search_white"
+        case HamburgerMenu = "icon_menu_white"
+        case Logo = "logo_splash"
         
         
     }
@@ -46,5 +48,9 @@ extension String {
     enum Identifiers: String {
         case favouriteViewControllerIdentifier = "favouriteScreenIdentifier"
         case recentsViewControllerIdentifier = "recentsScreenIdentifier"
+    }
+    
+    enum dateFormatter: String {
+        case DateFormat = "EEE, dd MMM yyyy hh:mm a"
     }
 }

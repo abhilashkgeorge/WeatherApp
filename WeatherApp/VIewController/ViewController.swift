@@ -49,6 +49,9 @@ class ViewController: UIViewController {
                let vc = segue.destination as? RecentsFavouritesViewController
                vc?.navigationItem.title = "Favourite"
                vc?.navigationController?.navigationBar.backgroundColor = .white
+               sideMenuConstraint.constant = -340
+               configureNavigationBar()
+               
            }
            
            if segue.identifier == String.Identifiers.recentsViewControllerIdentifier.rawValue {
@@ -56,6 +59,9 @@ class ViewController: UIViewController {
                vc?.navigationItem.title = "Recent Search"
                vc?.navigationController?.navigationBar.backgroundColor = .white
                vc?.isRecentsSegue = true
+               sideMenuConstraint.constant = -340
+               configureNavigationBar()
+               
            }
        }
     
@@ -78,7 +84,7 @@ class ViewController: UIViewController {
         segmentedControlToggled(Any.self)
         currentDayDateTimeLabel.text = "\(currentViewModel.dt)"
         LocationLabel.text = currentViewModel.name + ", State Name"
-        weatherStatusIcon.image = UIImage(named: "icon_mostly_sunny_small")
+        weatherStatusIcon.image = UIImage(named: UIImage.AssetImages.Sunny.rawValue)
         weatherStatusLabel.text =  currentViewModel.description
         percipitationValue.text = "0%"
         humidityLabel.text = "\(currentViewModel.humudity)"
@@ -90,19 +96,19 @@ class ViewController: UIViewController {
         if isSearchByLocation == false {
             location.configureCurrentLocation { location in
                 self.apiManager.getWeatherByCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                self.subFunction()
+                self.configureWeather()
             }
         }else {
             if let searchText = searchBar.text {
                 location.configureCurrentLocation { location in
                     self.apiManager.getWeatherByCity(city: searchText)
-                    self.subFunction()
+                    self.configureWeather()
                 }
             }
         }
     }
     
-    func subFunction() {
+    func configureWeather() {
         self.apiManager.getWeather() { (weather, error) in
             if let error = error {
                 print("Get weather error: \(error)")
@@ -123,11 +129,11 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
         
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(named: "icon_search_white"), style: .done, target: self, action: #selector(searchItemTapped))
+            UIBarButtonItem(image: UIImage(named: UIImage.AssetImages.SearchIcon.rawValue), style: .done, target: self, action: #selector(searchItemTapped))
         ]
         navigationItem.leftBarButtonItems = [
-            UIBarButtonItem(image: UIImage(named: "icon_menu_white"), style: .done, target: self, action: #selector(hamburgerButtonPressed)),
-            UIBarButtonItem(image: UIImage(named: "logo_splash"), style: .done, target: self, action: nil)
+            UIBarButtonItem(image: UIImage(named: UIImage.AssetImages.HamburgerMenu.rawValue), style: .done, target: self, action: #selector(hamburgerButtonPressed)),
+            UIBarButtonItem(image: UIImage(named: UIImage.AssetImages.Logo.rawValue), style: .done, target: self, action: nil)
         ]
     }
     
@@ -148,7 +154,7 @@ class ViewController: UIViewController {
             if isFavoritesActive{
                 addToFavourites()
             } else {
-                favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite"), for: .normal)
+                favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavInactive.rawValue), for: .normal)
             }
             isFavoritesActive = !isFavoritesActive
         } else {
@@ -159,7 +165,7 @@ class ViewController: UIViewController {
     
     func addToFavourites() {
         
-        favouriteHeartIconButton.setImage(UIImage(named: "icon_favourite_active"), for: .normal)
+        favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavActive.rawValue), for: .normal)
     }
     
     @IBAction func segmentedControlToggled(_ sender: Any) {

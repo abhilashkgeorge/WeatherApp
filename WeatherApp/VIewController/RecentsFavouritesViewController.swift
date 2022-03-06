@@ -10,22 +10,25 @@ import UIKit
 
 
 class RecentsFavouritesViewController: UIViewController {
-
+    
     @IBOutlet weak var deleteAllButton: UIButton!
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var listTableView: UITableView!
     var isRecentsSegue: Bool = false
-    var favouritesList : FavouritesViewModel?
-    var favouritesArray = [Favourites]()
-
+    var favouritesList = FavouritesViewModel()
+    var recentSearchesList = RecentsViewModel()
+    var numberOfCities = 0
     
-
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         listTableView.delegate = self
         listTableView.dataSource = self
+        numberOfCities = favouritesList.favouritesList.count
         configureView()
+  
     }
     
     func configureView() {
@@ -33,7 +36,7 @@ class RecentsFavouritesViewController: UIViewController {
             deleteAllButton.setTitle("Clear All", for: .normal)
         } else {
             deleteAllButton.setTitle("Remove All", for: .normal)
-            infoLabel.text = "6 Cities added as favourite"
+            infoLabel.text = "\(numberOfCities) Cities added as favourite"
         }
     }
     
@@ -58,7 +61,7 @@ class RecentsFavouritesViewController: UIViewController {
         present(alert, animated: true, completion: nil)
         alert.addAction(optionNo)
         alert.addAction(optionYes)
-            
+        
     }
     
 }
@@ -66,22 +69,44 @@ class RecentsFavouritesViewController: UIViewController {
 extension RecentsFavouritesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if !isRecentsSegue {
+            return favouritesList.favouritesList.count
+        }else {
+            return recentSearchesList.recentsList.count
+        }
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! CustomCell
-        cell.placeNameLabel.text = cell.layer.name
-        return cell
+        
+        if !isRecentsSegue {
+            cell.placeNameLabel.text = favouritesList.favouritesList[indexPath.row].location
+            cell.weatherStatusLabel.text = favouritesList.favouritesList[indexPath.row].weatherStatus
+            cell.currentTempLabel.text = "\(favouritesList.favouritesList[indexPath.row].currentTemperature)"
+            cell.favouriteHeartIcon.image = UIImage(named: UIImage.AssetImages.FavActive.rawValue)
+            return cell
+        } else {
+            cell.placeNameLabel.text = recentSearchesList.recentsList[indexPath.row].location
+            cell.favouriteHeartIcon.image = UIImage(named: UIImage.AssetImages.FavActive.rawValue)
+            return cell
+            
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-          //  customClass?.favouritesList.remove(at: indexPath.row)
+            if !isRecentsSegue {
+                favouritesList.favouritesList.remove(at: indexPath.row)
+            } else {
+                recentSearchesList.recentsList.remove(at: indexPath.row)
+            }
+            numberOfCities = favouritesList.favouritesList.count
             listTableView.deleteRows(at: [indexPath],
                                      with: .left)
+            listTableView.reloadData()
             
         }
     }
-
+    
 }

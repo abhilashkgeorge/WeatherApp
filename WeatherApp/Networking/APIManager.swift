@@ -66,7 +66,6 @@ extension APIManager {
     private func createWeatherObjectWith(json: Data, completion: @escaping (_ data: WeatherModel?, _ error: Error?) -> Void) {
         do {
             let decoder = JSONDecoder()
-            //decoder.keyDecodingStrategy = .convertFromSnakeCase
             let weather = try decoder.decode(WeatherModel.self, from: json)
             return completion(weather, nil)
         } catch let error {
