@@ -54,3 +54,12 @@ extension String {
         case DateFormat = "EEE, dd MMM yyyy hh:mm a"
     }
 }
+
+extension UILabel {
+    func addCharacterSpacing(spacingValue: Double = 2.0) {
+    guard let text = text, !text.isEmpty else { return }
+    let string = NSMutableAttributedString(string: text)
+    string.addAttribute(NSAttributedString.Key.kern, value: spacingValue, range: NSRange(location: 0, length: string.length - 1))
+    attributedText = string
+  }
+}

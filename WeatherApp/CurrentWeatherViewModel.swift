@@ -59,7 +59,7 @@ extension CurrentWeatherViewModel {
     private func updateDt(weatherModel: WeatherModel) -> String {
         dateFormatter.timeZone = TimeZone(identifier: "\(weatherModel.timezone)")
         let readableDate = Date(timeIntervalSince1970: TimeInterval(weatherModel.dt))
-        return dateFormatter.string(from: readableDate)
+        return dateFormatter.string(from: readableDate).uppercased()
         
     }
     

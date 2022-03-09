@@ -83,7 +83,8 @@ class ViewController: UIViewController {
         }
         segmentedControlToggled(Any.self)
         currentDayDateTimeLabel.text = "\(currentViewModel.dt)"
-        LocationLabel.text = currentViewModel.name + ", State Name"
+        currentDayDateTimeLabel.addCharacterSpacing()
+        LocationLabel.text = currentViewModel.name + "," + currentViewModel.weatherModel.sys.country
         weatherStatusIcon.image = UIImage(named: UIImage.AssetImages.Sunny.rawValue)
         weatherStatusLabel.text =  currentViewModel.description
         percipitationValue.text = "0%"
@@ -145,6 +146,10 @@ class ViewController: UIViewController {
         })
     }
     
+    func checkIfFavourite() {
+        
+        
+    }
     
     @IBAction func favouriteButtonTapped(_ sender: Any) {
         
@@ -162,10 +167,16 @@ class ViewController: UIViewController {
         }
     }
     
+ 
     
     func addToFavourites() {
         
         favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavActive.rawValue), for: .normal)
+        guard let currentViewModel = currentViewModel else {
+            return
+        }
+        
+        
     }
     
     @IBAction func segmentedControlToggled(_ sender: Any) {
@@ -185,13 +196,13 @@ class ViewController: UIViewController {
             let maxTemp = globalFunctions.convertKelvinToCelsius(value: currentViewModel.maxTemp)
             
             currentTemperatureLabel.text = currentTemp
-            minMaxTempLabel.text = minTemp + "-"  + maxTemp
+            minMaxTempLabel.text = minTemp + "°" + "-"  + maxTemp + "°"
         }else {
             let currentTemp = globalFunctions.convertKelvinToFahrenheit(value: currentViewModel.currentTemp)
             let minTemp = globalFunctions.convertKelvinToFahrenheit(value: currentViewModel.minTemp)
             let maxTemp = globalFunctions.convertKelvinToFahrenheit(value: currentViewModel.maxTemp)
             currentTemperatureLabel.text = currentTemp
-            minMaxTempLabel.text = minTemp + "-"  + maxTemp
+            minMaxTempLabel.text = minTemp + "°" + "-"  + maxTemp + "°"
         }
     }
     
