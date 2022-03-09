@@ -14,10 +14,8 @@ To Do's:
 
 State Name. Since the API Doesnot provide us with the name of the state , I am working on implementing the state name using CoreLocation.
 
-Favourites and recents Functionality
+Faced issues while adding Favourites and recents Functionality 
 
-UI customisation and refinement
-
-Landscape support
+Landscape support, images from server
 
 
