@@ -23,5 +23,15 @@ class GlobalFunctions {
         return "\(result)"
     }
     
+    func setFavouritesImage(status: Bool)  -> UIImage{
+        if status == true{
+            return UIImage(named: UIImage.AssetImages.FavActive.rawValue)!
+        } else {
+            return UIImage(named: UIImage.AssetImages.FavInactive.rawValue)!
+    }
+    }
+    
+
     
 }
+

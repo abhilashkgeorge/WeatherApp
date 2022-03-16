@@ -9,19 +9,30 @@ import Foundation
 import UIKit
 
 class Service :NSObject {
-    func getImageFromString(imageCode: String, weatherModel: WeatherModel)
-    -> UIImage {
+    func getImageFromString(imageCode: String, completion: @escaping (_ image: UIImage) -> Void ) {
         
-        let image: UIImage = UIImage(named: "icon_precipitation_info")!
-        
-       // guard let imageString = weatherModel.weather.last?.icon else{ return image
-       // }
-        let imageUrl = "http://openweathermap.org/img/w/" + imageCode + ".png"
+        let imageUrl = "https://openweathermap.org/img/w/\(imageCode).png"
+        guard let url = URL(string: imageUrl) else { return }
 
-       // let url = URL(fileURLWithPath: imageUrl) #
-        return image
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+            guard  error == nil else {
+                fatalError("error in api call")
+            }
+
+
+            guard let response = response as? HTTPURLResponse,
+                  response.statusCode == 200  else {
+               fatalError("response error")
+            }
+            
+            guard let data = data else {
+                fatalError("data error")
+            }
+           
+            if let image = UIImage(data: data) {
+                completion(image)
+            }
+            
+        }).resume()
     }
 }
-
-
-

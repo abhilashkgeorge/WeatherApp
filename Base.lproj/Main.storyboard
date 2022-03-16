@@ -41,7 +41,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="kuv-K0-kT5">
-                                <rect key="frame" x="113.33333333333333" y="211.66666666666666" width="148.66666666666669" height="26"/>
+                                <rect key="frame" x="110" y="211.66666666666666" width="155" height="26"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UAr-KQ-tEp">
                                         <rect key="frame" x="0.0" y="0.0" width="27" height="26"/>
@@ -55,13 +55,19 @@
                                             <action selector="favouriteButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hk5-wS-toH"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add to favourite" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gcf-Tu-3WD">
-                                        <rect key="frame" x="34.000000000000007" y="0.0" width="114.66666666666669" height="26"/>
-                                        <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="16"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add to favourite         " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gcf-Tu-3WD">
+                                        <rect key="frame" x="34" y="0.0" width="121" height="26"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                         <color key="textColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="UAr-KQ-tEp" firstAttribute="leading" secondItem="kuv-K0-kT5" secondAttribute="leading" id="JEf-8g-yYi"/>
+                                    <constraint firstItem="Gcf-Tu-3WD" firstAttribute="leading" secondItem="UAr-KQ-tEp" secondAttribute="trailing" constant="7" id="OWr-nq-Vhi"/>
+                                    <constraint firstItem="UAr-KQ-tEp" firstAttribute="top" secondItem="kuv-K0-kT5" secondAttribute="top" id="fr5-5D-WGR"/>
+                                    <constraint firstAttribute="bottom" secondItem="UAr-KQ-tEp" secondAttribute="bottom" id="sCh-wn-0tO"/>
+                                </constraints>
                             </stackView>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tCJ-3X-FxO">
                                 <rect key="frame" x="122.66666666666669" y="317.66666666666669" width="130" height="175"/>
@@ -79,7 +85,7 @@
                                         <color key="textColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mostly Sunny" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="llV-li-ND3">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mostly Sunny" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llV-li-ND3">
                                         <rect key="frame" x="0.0" y="153.66666666666663" width="130" height="21.333333333333343"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                         <color key="textColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -370,6 +376,7 @@
                             <constraint firstAttribute="bottom" secondItem="gUa-ii-8qf" secondAttribute="bottom" id="UHT-gM-sjW"/>
                             <constraint firstItem="hPC-Ev-9p3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Zbq-pC-Q5z"/>
                             <constraint firstAttribute="bottom" secondItem="BdF-T1-5u7" secondAttribute="bottom" id="biq-qP-Q8b"/>
+                            <constraint firstItem="kuv-K0-kT5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="110" id="gPU-32-0b5"/>
                             <constraint firstItem="gUa-ii-8qf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hA2-ER-pPh"/>
                             <constraint firstItem="7aB-d9-KoJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hYZ-nO-JSR"/>
                             <constraint firstItem="hPC-Ev-9p3" firstAttribute="top" secondItem="GSZ-bj-hnX" secondAttribute="bottom" constant="10" id="nKw-Hq-w82"/>
@@ -383,6 +390,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="LocationLabel" destination="hPC-Ev-9p3" id="9Ca-ZN-9iv"/>
+                        <outlet property="addToFavouriteLabel" destination="Gcf-Tu-3WD" id="qG0-3x-nrP"/>
                         <outlet property="currentDayDateTimeLabel" destination="GSZ-bj-hnX" id="XdD-YC-HFO"/>
                         <outlet property="currentTemperatureLabel" destination="N6A-Is-xQq" id="8Ug-Tb-pye"/>
                         <outlet property="favouriteHeartIconButton" destination="UAr-KQ-tEp" id="ijM-Ug-YiS"/>
@@ -401,7 +409,7 @@
             </objects>
             <point key="canvasLocation" x="1532" y="-10.344827586206897"/>
         </scene>
-        <!--Recent Search-->
+        <!--Recents Favourites View Controller-->
         <scene sceneID="4fc-37-OB0">
             <objects>
                 <viewController storyboardIdentifier="RecentsFavouritesViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="K4l-ON-X1v" customClass="RecentsFavouritesViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -473,7 +481,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
-                                            <color key="backgroundColor" white="1" alpha="0.096607031411682531" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="backgroundColor" white="1" alpha="0.10115243267539321" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="Wjo-wV-Nae" secondAttribute="trailing" id="2oA-5A-5VB"/>
                                                 <constraint firstItem="Wjo-wV-Nae" firstAttribute="leading" secondItem="9ld-gd-oVU" secondAttribute="leading" id="6J5-Jc-Rxb"/>
@@ -530,11 +538,27 @@
                             <constraint firstItem="cYe-VQ-KXc" firstAttribute="leading" secondItem="eo3-Vm-O4z" secondAttribute="leading" constant="16" id="pe3-0P-uiC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Recent Search" id="P2b-jb-JMR"/>
+                    <navigationItem key="navigationItem" id="P2b-jb-JMR">
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" image="back_button" id="5DZ-J2-Psf">
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="K4l-ON-X1v" id="8np-A3-jw4"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" id="1sZ-rA-Yrv"/>
+                        </leftBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="icon_search_white" id="9IY-Nt-lho">
+                            <connections>
+                                <action selector="searchButtonTapped:" destination="K4l-ON-X1v" id="f54-7k-pSm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="barButtonTitleItem" destination="1sZ-rA-Yrv" id="yYn-MK-bEV"/>
                         <outlet property="deleteAllButton" destination="0oO-mq-0ZH" id="arb-Yh-hT8"/>
                         <outlet property="infoLabel" destination="iZz-3S-QqK" id="h6C-A7-Pai"/>
                         <outlet property="listTableView" destination="cYe-VQ-KXc" id="Oec-8L-szr"/>
+                        <outlet property="searchIcon" destination="9IY-Nt-lho" id="dyh-C3-Qcp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XZo-5l-9EV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -561,14 +585,16 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xTj-YB-bOb"/>
+        <segue reference="MCB-Wt-udc"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="back_button" width="30" height="30"/>
         <image name="background_android" width="540" height="960"/>
         <image name="icon_favourite" width="30" height="29"/>
         <image name="icon_humidity_info" width="26" height="33"/>
         <image name="icon_mostly_sunny_small" width="96" height="100"/>
         <image name="icon_precipitation_info" width="39" height="38"/>
+        <image name="icon_search_white" width="20" height="20"/>
         <image name="icon_temperature_info" width="23" height="42"/>
         <image name="icon_wind_info" width="42" height="30"/>
         <systemColor name="systemTealColor">

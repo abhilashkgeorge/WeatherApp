@@ -9,39 +9,32 @@ import Foundation
 import UIKit
 
 class RecentsViewModel {
-    
-    var recentsList: [RecentSearches] = []
+    let dataStore = DataStore()
+    var recentsList: [PlaceDetails] = [] {
+        didSet {
+            dataStore.savePlaces(placeDetails: recentsList)
+        }
+    }
+ 
     
     init() {
-        self.createRecentsArray()
+        self.recentsList = dataStore.loadPlaces()
     }
     
+   
     
-    
-    func createRecentsArray() {
-    
-        recentsList.append(RecentSearches(location: "Bangalore", currentTemperature: 77, weatherIcon: UIImage(named: UIImage.AssetImages.Sunny.rawValue)!, weatherStatus: "Mostly Sunny", isFavourite: true))
-        recentsList.append(RecentSearches(location: "Mangalore", currentTemperature: 80, weatherIcon:UIImage(named: UIImage.AssetImages.Sunny.rawValue)!, weatherStatus: "Mostly Windy", isFavourite: false))
-    }
-    
-    
-    func queryRecentSearch(place: String) {
-        
-    }
-       
-    
-    func updateRecentSearch(city: String, isFavourite: Bool) {
-    }
-    
-    func insertRecentSearch(recentSearchModel: CurrentWeatherViewModel) {
-    }
-    
-    
-    func deleteRecentSearch(recentSearchModel: CurrentWeatherViewModel) {
+    func deleteRecentSearch(place: String) {
+        for recents in recentsList {
+            if recents.location == place {
+                recents.isFavourite = false
+                dataStore.savePlaces(placeDetails: recentsList)
+            }
+        }
     }
 
     func deleteAllRecentSearches() {
-        //recentsSearchesList = []
+        recentsList = []
+    //    dataStore.savePlaces(placeDetails: recentsList)
     }
     
 }

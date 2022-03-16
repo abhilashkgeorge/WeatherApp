@@ -10,15 +10,17 @@ import UIKit
 
 public struct CurrentWeatherViewModel {
     var globalFunctions = GlobalFunctions()
+    let apiManager = APIManager()
     let weatherModel: WeatherModel
+    var favouritesModel = FavouritesViewModel()
+    var places: [PlaceDetails] = [PlaceDetails]()
     private(set) var dt: String = ""
     private(set) var name: String = ""
     private(set) var country: String = ""
-    private(set) var isFavouriteSelected: Bool = true
+    private(set) var isFavouriteSelected: Bool = false
     private(set) var weatherIcon: String = ""
     private(set) var description: String = ""
     private(set) var currentTemp: Double = 0.0
-   // private(set) var isDegreeConversionSelected: Bool = false
     private(set) var status: String = ""
     private(set) var minTemp: Double = 0.0
     private(set) var maxTemp: Double = 0.0
@@ -28,7 +30,7 @@ public struct CurrentWeatherViewModel {
     
     init(weatherModel: WeatherModel) {
         self.weatherModel = weatherModel
-        updateProperties() 
+        updateProperties()
     }
     
     mutating func updateProperties() {
@@ -113,9 +115,9 @@ extension CurrentWeatherViewModel {
     }
 }
 
-extension CurrentWeatherViewModel {
+extension CurrentWeatherViewModel  {
     func convertDoubleToString(value: Double) -> String {
         return String(format: "%.0f", value)
-    }
-
+    } 
 }
+

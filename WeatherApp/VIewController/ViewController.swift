@@ -12,15 +12,21 @@ import SwiftUI
 class ViewController: UIViewController {
     private let apiManager = APIManager()
     let location = Location()
+    let service = Service()
     let globalFunctions = GlobalFunctions()
     var isFavoritesActive: Bool = false
     var isSearchByLocation = false
     let searchView = UITableView()
     let searchBar = UISearchBar()
+    let dataStore = DataStore()
+    var recentsViewController = RecentsFavouritesViewController()
+    var placeDetails: [PlaceDetails] = [PlaceDetails]()
     
-    var favourites: [String]?
+    
+    var recentSearches: [String]?
     //MARK: Connection elements from storyboard
     private(set) var currentViewModel: CurrentWeatherViewModel?
+    var placeListViewModel: PlaceListViewModel = PlaceListViewModel(placeDetails:[PlaceDetails]())
     @IBOutlet weak var currentDayDateTimeLabel: UILabel!
     @IBOutlet weak var LocationLabel: UILabel!
     @IBOutlet weak var favouriteHeartIconButton: UIButton!
@@ -34,6 +40,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var windSpeedLabel: UILabel!
     @IBOutlet weak var sideMenuConstraint: NSLayoutConstraint!
     @IBOutlet weak var sideMenuView: UIView!
+    @IBOutlet weak var addToFavouriteLabel: UILabel!
     
     
     override func viewDidLoad() {
@@ -43,27 +50,24 @@ class ViewController: UIViewController {
     }
     
     
-       override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-           
-           if segue.identifier == String.Identifiers.favouriteViewControllerIdentifier.rawValue {
-               let vc = segue.destination as? RecentsFavouritesViewController
-               vc?.navigationItem.title = "Favourite"
-               vc?.navigationController?.navigationBar.backgroundColor = .white
-               sideMenuConstraint.constant = -340
-               configureNavigationBar()
-               
-           }
-           
-           if segue.identifier == String.Identifiers.recentsViewControllerIdentifier.rawValue {
-               let vc = segue.destination as? RecentsFavouritesViewController
-               vc?.navigationItem.title = "Recent Search"
-               vc?.navigationController?.navigationBar.backgroundColor = .white
-               vc?.isRecentsSegue = true
-               sideMenuConstraint.constant = -340
-               configureNavigationBar()
-               
-           }
-       }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let vc = segue.destination as? RecentsFavouritesViewController
+        sideMenuConstraint.constant = -340
+        configureNavigationBar()
+        navigationController?.navigationBar.tintColor = .black
+        
+        if segue.identifier == String.Identifiers.favouriteViewControllerIdentifier.rawValue {
+            vc?.barButtonTitleItem.title = "Favourites"
+            navigationController?.navigationBar.backgroundColor = .white
+        }
+        
+        if segue.identifier == String.Identifiers.recentsViewControllerIdentifier.rawValue {
+            vc?.barButtonTitleItem.title = " Recent Search"
+            navigationController?.navigationBar.backgroundColor = .white
+            vc?.isRecentsSegue = true
+        }
+    }
     
     var searchResult: WeatherModel? {
         didSet {
@@ -73,6 +77,7 @@ class ViewController: UIViewController {
             currentViewModel = CurrentWeatherViewModel.init(weatherModel: searchResult)
             DispatchQueue.main.async {
                 self.updateView()
+                
             }
         }
     }
@@ -81,43 +86,71 @@ class ViewController: UIViewController {
         guard let currentViewModel = currentViewModel else {
             return
         }
+        //        guard var placeList = placesList else { return }
+        
+        
+        
         segmentedControlToggled(Any.self)
         currentDayDateTimeLabel.text = "\(currentViewModel.dt)"
+        currentTemperatureLabel.text = globalFunctions.convertKelvinToCelsius(value: currentViewModel.currentTemp)
         currentDayDateTimeLabel.addCharacterSpacing()
         LocationLabel.text = currentViewModel.name + "," + currentViewModel.weatherModel.sys.country
-        weatherStatusIcon.image = UIImage(named: UIImage.AssetImages.Sunny.rawValue)
         weatherStatusLabel.text =  currentViewModel.description
         percipitationValue.text = "0%"
         humidityLabel.text = "\(currentViewModel.humudity)"
         windSpeedLabel.text = "\(currentViewModel.wind)"
-        isFavoritesActive = true
+        isFavoritesActive = checkIfFavourite(location: LocationLabel.text!)
+        let currentTemp = "\(currentTemperatureLabel.text ?? "")°c"
+        
+        
+        service.getImageFromString(imageCode: currentViewModel.weatherIcon) { (img) in
+            DispatchQueue.main.async {
+                self.weatherStatusIcon.image = img
+                let place = PlaceDetails(location: self.LocationLabel.text ?? "", currentTemperature: currentTemp , weatherIcon: self.weatherStatusIcon.image!, weatherStatus:self.weatherStatusLabel.text  ?? "", isFavourite: self.isFavoritesActive)
+                if self.isSearchByLocation == true {
+                    self.placeListViewModel.addPlace(place: place)
+                    self.dataStore.savePlaces(placeDetails: self.placeListViewModel.placeDetails)
+                }
+                
+            }
+            
+        }
+        
+        
     }
+    
     
     private func getWeather() {
         if isSearchByLocation == false {
             location.configureCurrentLocation { location in
-                self.apiManager.getWeatherByCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                self.configureWeather()
+                let url =                 URL.getWeatherByCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                self.configureWeather(url: url)
             }
         }else {
             if let searchText = searchBar.text {
                 location.configureCurrentLocation { location in
-                    self.apiManager.getWeatherByCity(city: searchText)
-                    self.configureWeather()
+                    let url = URL.getWeatherByCity(city: searchText)
+                    self.configureWeather(url: url)
                 }
             }
         }
     }
     
-    func configureWeather() {
-        self.apiManager.getWeather() { (weather, error) in
+    func configureWeather(url: String) {
+        self.apiManager.getWeather(url: url) { (weather, error) in
             if let error = error {
                 print("Get weather error: \(error)")
                 return
             }
-            guard let weather = weather  else { return }
+            guard let weather = weather  else {return }
             self.searchResult = weather
         }
+        //        if self.searchResult == nil {
+        //            self.showAlert(title: "Bahd", message: "TryAgain")
+        //
+        //        }
+        
+        
     }
     
     func configureItems() {
@@ -134,7 +167,7 @@ class ViewController: UIViewController {
         ]
         navigationItem.leftBarButtonItems = [
             UIBarButtonItem(image: UIImage(named: UIImage.AssetImages.HamburgerMenu.rawValue), style: .done, target: self, action: #selector(hamburgerButtonPressed)),
-            UIBarButtonItem(image: UIImage(named: UIImage.AssetImages.Logo.rawValue), style: .done, target: self, action: nil)
+            UIBarButtonItem(image: UIImage(named: UIImage.AssetImages.SmallLogo.rawValue), style: .done, target: self, action: nil)
         ]
     }
     
@@ -146,40 +179,68 @@ class ViewController: UIViewController {
         })
     }
     
-    func checkIfFavourite() {
+    func checkIfFavourite(location: String) -> Bool {
         
+        let placeList = dataStore.loadPlaces()
+        
+        
+        for place in placeList {
+            if place.location == location {
+                if place.isFavourite == true {
+                    favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavActive.rawValue), for: .normal)
+                    return true
+                }
+            }
+        }
+        favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavInactive.rawValue), for: .normal)
+        return false
         
     }
     
     @IBAction func favouriteButtonTapped(_ sender: Any) {
-        
-        //guard let currentViewModel = currentViewModel else { return }
-        
-        if favourites == nil {
-            if isFavoritesActive{
-                addToFavourites()
-            } else {
-                favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavInactive.rawValue), for: .normal)
-            }
-            isFavoritesActive = !isFavoritesActive
-        } else {
-            
-        }
-    }
-    
- 
-    
-    func addToFavourites() {
-        
-        favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavActive.rawValue), for: .normal)
+        toggleIconFavourites()
+        let placesList = dataStore.loadPlaces()
         guard let currentViewModel = currentViewModel else {
             return
         }
-        
-        
+        let currentTemp = "\(currentTemperatureLabel.text ?? "")°c"
+        if isSearchByLocation == false {
+            let place = PlaceDetails(location: LocationLabel.text ?? "", currentTemperature: currentTemp , weatherIcon: weatherStatusIcon.image!, weatherStatus: weatherStatusLabel.text  ?? "", isFavourite: true)
+            placeListViewModel.addPlace(place: place)
+            dataStore.savePlaces(placeDetails: placeListViewModel.placeDetails)
+
+        }
+        for list in placesList {
+            if list.location == currentViewModel.name + "," + currentViewModel.weatherModel.sys.country {
+                if list.isFavourite == true {
+                    list.isFavourite = false
+                } else {
+                    list.isFavourite = true
+                }
+                
+            }
+            
+            dataStore.savePlaces(placeDetails: placesList)
+        }
     }
     
+    func toggleIconFavourites() {
+        if isFavoritesActive == false{
+            placeListViewModel.toggleFavourites(placeName: LocationLabel.text!)
+            favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavActive.rawValue), for: .normal)
+            addToFavouriteLabel.text = "Added to favourites"
+            isFavoritesActive = true
+        } else {
+            placeListViewModel.toggleFavourites(placeName: LocationLabel.text!)
+            favouriteHeartIconButton.setImage(UIImage(named: UIImage.AssetImages.FavInactive.rawValue), for: .normal)
+            addToFavouriteLabel.text = "Add to favourites"
+            isFavoritesActive = false
+        }
+    }
+    
+    
     @IBAction func segmentedControlToggled(_ sender: Any) {
+        
         guard let currentViewModel = currentViewModel else {
             return
         }
@@ -261,6 +322,7 @@ extension ViewController: UISearchBarDelegate {
         isSearchByLocation = true
         getWeather()
         hideSearch()
+        searchBar.text = ""
     }
     
     func hideSearch() {
