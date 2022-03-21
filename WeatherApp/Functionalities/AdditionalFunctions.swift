@@ -9,7 +9,7 @@ import CoreLocation
 import UIKit
 //
 
-class GlobalFunctions {
+class AdditionalFunctions {
   
     func convertKelvinToCelsius(value: Double) -> String {
         let celsius = value - 273.15

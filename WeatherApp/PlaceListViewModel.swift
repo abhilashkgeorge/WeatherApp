@@ -42,16 +42,19 @@ class PlaceListViewModel {
     }
     
     func addPlace(place: PlaceDetails) {
+        var index = -1
         if placeDetails.first == nil {
             
             placeDetails.append(PlaceDetails(location: place.location, currentTemperature: place.currentTemperature, weatherIcon: place.weatherIcon, weatherStatus: place.weatherStatus, isFavourite: place.isFavourite))
         } else {
             for placeName in placeDetails {
+                index = index + 1
                 if placeName.location == place.location {
-                    return
+                    placeDetails.remove(at: index)
                 }
             }
             placeDetails.insert((PlaceDetails(location: place.location, currentTemperature: place.currentTemperature, weatherIcon: place.weatherIcon, weatherStatus: place.weatherStatus, isFavourite: place.isFavourite)), at: 0)
+            dataStore.savePlaces(placeDetails: placeDetails)
 
         }
     }
@@ -60,7 +63,7 @@ class PlaceListViewModel {
         for list in placeDetails {
             if list.location == placeName {
                 list.isFavourite = !list.isFavourite
-                print(list.isFavourite)
+               // print(list.isFavourite)
             }
         }
     }

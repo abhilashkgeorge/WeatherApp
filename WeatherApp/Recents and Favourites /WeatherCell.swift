@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomCell: UITableViewCell {
+class WeatherCell: UITableViewCell {
 
     @IBOutlet weak var currentWeatherIcon: UIImageView!
     @IBOutlet weak var placeNameLabel: UILabel!

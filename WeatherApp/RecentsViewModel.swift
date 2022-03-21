@@ -33,8 +33,9 @@ class RecentsViewModel {
     }
 
     func deleteAllRecentSearches() {
+        
         recentsList = []
-    //    dataStore.savePlaces(placeDetails: recentsList)
+        dataStore.savePlaces(placeDetails: recentsList)
     }
     
 }

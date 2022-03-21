@@ -11,34 +11,6 @@ import UIKit
 class APIManager {
     static let shared = APIManager()
     
-//    func getWeather(url: URL, completionHandler: @escaping(_ weather: Any) -> ()) {
-//
-//        let session = URLSession.shared
-//
-//        session.dataTask(with: url) { (data, response, error) in
-//
-//            guard error != nil else {
-//
-//                return
-//            }
-//
-//            if let response = response {
-//                print(response)
-//            } else {
-//                fatalError()
-//            }
-//
-//            if let data = data {
-//                do {
-//                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-//                    completionHandler(jsonResponse)
-//                } catch {
-//                    fatalError()
-//                }
-//            }
-//
-//        }.resume()
-//    }
     
     func getImage(from url: URL, completion: @escaping (_ image: UIImage) -> Void ) {
         
@@ -69,29 +41,6 @@ class APIManager {
         }
     
 
-
-
-
-
-
-
-
-//class APIManager {
-//
-//    let baseURL = "https://api.openweathermap.org/data/2.5/weather"
-//    let APIKey = "5ea7139e9797a5d9d28a0b895063e7a5"
-//    var urlString: String = ""
-//
-//    func getWeatherByCity(city: String) {
-//        let weatherRequestURL = "\(baseURL)?q=\(city)&APPID=\(APIKey)"
-//        urlString = weatherRequestURL
-//        print(urlString)
-//    }
-//
-//    func getWeatherByCoordinates(latitude: Double, longitude: Double) {
-//        let weatherRequestURL = "\(baseURL)?APPID=\(APIKey)&lat=\(latitude)&lon=\(longitude)"
-//        urlString = weatherRequestURL
-//    }
 
     func getWeather(url: String,completion: @escaping (_ weather: WeatherModel?, _ error: Error?) -> Void) {
         getJSONFromURL(urlString: url ) { (data, error) in

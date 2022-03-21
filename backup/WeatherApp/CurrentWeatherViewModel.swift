@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 public struct CurrentWeatherViewModel {
+    var globalFunctions = GlobalFunctions()
     let apiManager = APIManager()
     let weatherModel: WeatherModel
     var favouritesModel = FavouritesViewModel()
@@ -16,7 +17,7 @@ public struct CurrentWeatherViewModel {
     private(set) var dt: String = ""
     private(set) var name: String = ""
     private(set) var country: String = ""
-    private(set) var isFavouriteSelected: Bool = false
+    private(set) var isFavouriteSelected: Bool = true
     private(set) var weatherIcon: String = ""
     private(set) var description: String = ""
     private(set) var currentTemp: Double = 0.0
@@ -117,6 +118,53 @@ extension CurrentWeatherViewModel {
 extension CurrentWeatherViewModel  {
     func convertDoubleToString(value: Double) -> String {
         return String(format: "%.0f", value)
-    } 
+    }
+    
+    
+    
 }
 
+extension CurrentWeatherViewModel {
+    
+    mutating func addPlace(place: PlaceDetails) {
+        
+        places.append(PlaceDetails(location: place.location, currentTemperature: place.currentTemperature, weatherIcon: place.weatherIcon, weatherStatus: place.weatherStatus, isFavourite: place.isFavourite))
+        
+        for num in 0...places.count - 1 {
+            print(places[num].location)
+            
+        }
+        
+        
+//        for list in places {
+//            if place.location == list.location {
+//                return
+//            } else {
+//                places.append(PlaceDetails(location: place.location, currentTemperature: place.currentTemperature, weatherIcon: place.weatherIcon, weatherStatus: place.weatherStatus, isFavourite: place.isFavourite))
+//            }
+    //    }
+    }
+    
+    mutating func toggleFavourites(placeName: String) {
+        for list in places {
+            if list.location == placeName {
+                isFavouriteSelected = !isFavouriteSelected
+            }
+        }
+    }
+    
+    func getRecentSearhViewModel() -> placeDetailsViewModel {
+        
+        let recentSearchPlacesList = placeDetailsViewModel(placeDetails: self.places)
+        return recentSearchPlacesList
+        
+    }
+    
+    func getFavouritePlaces() -> placeDetailsViewModel {
+        
+        let filteredList  = places.filter({$0.isFavourite == true})
+        let favouritePlacesList = placeDetailsViewModel(placeDetails: filteredList)
+        return favouritePlacesList
+        
+    }
+}

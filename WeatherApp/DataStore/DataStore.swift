@@ -11,6 +11,7 @@ import UIKit
 
 class DataStore {
     var retreivedData: [PlaceDetails] = [PlaceDetails]()
+    var favouritesArray: [PlaceDetails] = [PlaceDetails]()
     let fileManger = FileManager.default
     
     
@@ -45,7 +46,7 @@ class DataStore {
                 let data = try Data(contentsOf: placeDetailsURL)
                 if let allPlaceDetailes = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [PlaceDetails] {
                     retreivedData = allPlaceDetailes
-                    print(retreivedData)
+                   // print(retreivedData)
                     
                 }
             } catch {
@@ -64,8 +65,8 @@ class DataStore {
                 let data = try Data(contentsOf: placeDetailsURL)
                 if let allPlaceDetailes = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [PlaceDetails] {
                     let favourites = allPlaceDetailes.filter({$0.isFavourite == true})
-                    retreivedData = favourites
-                    print(retreivedData.count)
+                    favouritesArray = favourites
+                   // print(favouritesArray.count)
                     
                 }
             } catch {
@@ -73,7 +74,7 @@ class DataStore {
             }
             
         }
-        return retreivedData
+        return favouritesArray
         
     }
     

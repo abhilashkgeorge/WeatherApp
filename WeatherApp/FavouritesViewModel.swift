@@ -9,13 +9,16 @@
 import Foundation
 import UIKit
 
+
 class FavouritesViewModel {
     
     var favouritesList: [PlaceDetails] = []
     let dataStore = DataStore()
+    var placeListVM = PlaceListViewModel(placeDetails: [PlaceDetails]())
     
     init() {
         self.favouritesList = dataStore.loadFavourites()
+        self.favouritesList = dataStore.favouritesArray
     }
 
 

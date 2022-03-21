@@ -38,9 +38,6 @@ extension UIImage {
         case SearchIcon = "icon_search_white"
         case HamburgerMenu = "icon_menu_white"
         case Logo = "logo_splash"
-        case SmallLogo = "logo"
-        case Empty = "icon_nothing"
-        case back = "back_button"
         
         
     }
@@ -68,57 +65,35 @@ extension UILabel {
     
     
 }
-extension UIViewController {
-func showAlert(title: String, message: String) {
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    let ok = UIAlertAction(title: "ok", style: .cancel) { (ok) in
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    alert.addAction(ok)
-    present(alert, animated: true, completion: nil)
-}
-}
-
- 
-    
 extension URL {
     
     static let baseURL = "https://api.openweathermap.org/data/2.5/weather"
     static let APIKey = "5ea7139e9797a5d9d28a0b895063e7a5"
     
-    static func getWeatherByCity(city: String) -> String {
+    static func getWeatherByCity(city: String) -> URL {
         let weatherRequestURL = "\(URL.baseURL)?q=\(city)&APPID=\(URL.APIKey)"
         
-      //  guard let url = URL(string: weatherRequestURL) else { fatalError() }
-        return weatherRequestURL
+        guard let url = URL(string: weatherRequestURL) else { fatalError() }
+        return url
         
     }
     
-    static func getWeatherByCoordinates(latitude: Double, longitude: Double) -> String {
+    static func getWeatherByCoordinates(latitude: Double, longitude: Double) -> URL {
         let weatherRequestURL = "\(URL.baseURL)?APPID=\(URL.APIKey)&lat=\(latitude)&lon=\(longitude)"
         
-       // guard let url = URL(string: weatherRequestURL) else { fatalError() }
-        return weatherRequestURL
+        guard let url = URL(string: weatherRequestURL) else { fatalError() }
+        return url
         
     }
-
     
-    
-    
-    
-    
-}
-
-class UINavigationItemCustom: UINavigationItem {
-
-    var navigationController: UINavigationController = UINavigationController()
-    
-    func setUp() {
-        navigationController.navigationBar.backgroundColor = .white
+    static func getImageURLFromString(imageCode: String) -> URL {
+        let imageUrl = "http://openweathermap.org/img/w/" + imageCode + ".png"
+        guard let url = URL(string: imageUrl) else { fatalError() }
+        return url
     }
     
     
-
+    
+    
     
 }

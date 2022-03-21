@@ -16,16 +16,18 @@ class RecentsFavouritesViewController: UIViewController {
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var searchIcon: UIBarButtonItem!
     @IBOutlet weak var barButtonTitleItem: UIBarButtonItem!
+    let searchBar = UISearchBar()
     var placeDetail: [PlaceDetails] = [PlaceDetails]()
     var placeListViewModel: PlaceListViewModel?
     var isRecentsSegue: Bool = false
     var favouritesList = FavouritesViewModel()
     var recentSearchesList = RecentsViewModel()
-    let globalFunctions = GlobalFunctions()
+    let additionalFunctions = AdditionalFunctions()
     var recentsArray: [PlaceDetails] = []
     var favouritesArray: [PlaceDetails] = []
     var numberOfCities = 0
     var dataStore = DataStore()
+    var searchPlace = [PlaceDetails]()
     
     
     
@@ -34,11 +36,11 @@ class RecentsFavouritesViewController: UIViewController {
         super.viewDidLoad()
         listTableView.delegate = self
         listTableView.dataSource = self
+        searchBar.delegate = self
         recentsArray = recentSearchesList.recentsList
         favouritesArray = favouritesList.favouritesList
-        
         configureView()
-  
+        
     }
     
     func configureView() {
@@ -74,15 +76,18 @@ class RecentsFavouritesViewController: UIViewController {
         let optionYes = UIAlertAction(title: "Yes", style: .default) { (selection) in
             
             if self.isRecentsSegue {
-                self.dataStore.retreivedData = []
                 self.recentsArray = []
                 self.recentSearchesList.deleteAllRecentSearches()
+                self.dataStore.savePlaces(placeDetails: self.recentsArray)
                 self.listTableView.reloadData()
+                
             } else {
+                self.dataStore.retreivedData = []
+                //self.favouritesList.deleteAllFavourites()
                 self.favouritesArray = []
-                self.favouritesList.deleteAllFavourites()
                 self.listTableView.reloadData()
             }
+            self.setUpEmptyTableView()
             alert.dismiss(animated: true, completion: nil)
         }
         present(alert, animated: true, completion: nil)
@@ -90,11 +95,10 @@ class RecentsFavouritesViewController: UIViewController {
         alert.addAction(optionYes)
         
     }
-   
+    
     //MARK: search
     
     @IBAction func searchButtonTapped(_ sender: Any) {
-        let searchBar = UISearchBar()
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
         navigationItem.rightBarButtonItem = nil
@@ -151,61 +155,32 @@ extension RecentsFavouritesViewController: UITableViewDelegate, UITableViewDataS
         return 80
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//   guard let placeListViewModel = placeListViewModel else { return 2 }
-//        if !isRecentsSegue {
-//            let favourites = placeListViewModel.getFavouritesViewModel()
-//            return favourites.count()
-//
-//        }else {
-//            let recents = placeListViewModel.getRecentSearchViewModel()
-//            print(recents.count())
-//            return recents.count()
-//
-//           // return recentSearchesList.recentsList.count
-//        }
-                if !isRecentsSegue {
-                   return favouritesArray.count
-        
-                }else {
-                    return recentsArray.count
-        
-                   // return recentSearchesList.recentsList.count
-                }
+        if !isRecentsSegue {
+            return favouritesArray.count
+            
+        }else {
+            return recentsArray.count
+            
+        }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! CustomCell
-     //   guard let placeListViewModel = placeListViewModel else { return UITableViewCell() }
-//        if !isRecentsSegue {
-//            cell.placeNameLabel.text = placeListViewModel.placeDetails[indexPath.row].location
-//            cell.weatherStatusLabel.text = placeListViewModel.placeDetails[indexPath.row].weatherStatus
-//            cell.currentTempLabel.text = "\(placeListViewModel.placeDetails[indexPath.row].currentTemperature)"
-//            cell.favouriteHeartIcon.image = UIImage(named: UIImage.AssetImages.FavActive.rawValue)
-//            return cell
-//        } else {
-//            cell.placeNameLabel.text = placeListViewModel.placeDetails[indexPath.row].location
-//            cell.weatherStatusLabel.text = placeListViewModel.placeDetails[indexPath.row].weatherStatus
-//            cell.currentTempLabel.text = "\(placeListViewModel.placeDetails[indexPath.row].currentTemperature)"
-//            cell.favouriteHeartIcon.image = UIImage(named: UIImage.AssetImages.FavActive.rawValue)
-//            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! WeatherCell
         if !isRecentsSegue {
             cell.placeNameLabel.text = favouritesArray[indexPath.row].location
             cell.weatherStatusLabel.text = favouritesArray[indexPath.row].weatherStatus
             cell.currentTempLabel.text = "\(favouritesArray[indexPath.row].currentTemperature)"
             cell.currentWeatherIcon.image = favouritesArray[indexPath.row].weatherIcon
-            cell.favouriteHeartIcon.image = globalFunctions.setFavouritesImage(status: favouritesArray[indexPath.row].isFavourite)
+            cell.favouriteHeartIcon.image = additionalFunctions.setFavouritesImage(status: favouritesArray[indexPath.row].isFavourite)
             return cell
         } else {
             cell.placeNameLabel.text = recentsArray[indexPath.row].location
             cell.weatherStatusLabel.text = recentsArray[indexPath.row].weatherStatus
             cell.currentTempLabel.text = "\(recentsArray[indexPath.row].currentTemperature)"
             cell.currentWeatherIcon.image = recentsArray[indexPath.row].weatherIcon
-            cell.favouriteHeartIcon.image = globalFunctions.setFavouritesImage(status: recentsArray[indexPath.row].isFavourite)
+            cell.favouriteHeartIcon.image = additionalFunctions.setFavouritesImage(status: recentsArray[indexPath.row].isFavourite)
             return cell
-//            cell.placeNameLabel.text = recentSearchesList.recentsList[indexPath.row].location
-//            cell.favouriteHeartIcon.image = UIImage(named: UIImage.AssetImages.FavActive.rawValue)
-//            return cell
             
         }
         
@@ -217,13 +192,13 @@ extension RecentsFavouritesViewController: UITableViewDelegate, UITableViewDataS
             if !isRecentsSegue {
                 var favouritesArr = dataStore.loadFavourites()
                 favouritesArr.remove(at: indexPath.row)
-        
+                
                 favouritesArray[indexPath.row].isFavourite = false
-                favouritesArray.remove(at: indexPath.row)
                 favouritesList.deleteFavouritePlace(place: favouritesArray[indexPath.row].location)
+                favouritesArray.remove(at: indexPath.row)
                 favouritesList.favouritesList.remove(at: indexPath.row)
                 numberOfCities = favouritesArray.count
-               
+                
             } else {
                 recentsArray.remove(at: indexPath.row)
                 recentSearchesList.recentsList.remove(at: indexPath.row)
@@ -237,17 +212,61 @@ extension RecentsFavouritesViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let place = recentsArray[indexPath.row]
-        print(type(of: place))
-        guard var homeViewController = storyboard?.instantiateViewController(withIdentifier: "ViewController") as? ViewController else { return }
-
-        homeViewController.placeListViewModel.getPlaceDetailsAtIndex(index: indexPath.row)
-        
+        guard let homeViewController = storyboard?.instantiateViewController(withIdentifier: "ViewController") as? HomeScreenViewController else { return }
+        let name = place.location
+        homeViewController.searchBar.text = name
+        homeViewController.isSearchByLocation = true
         navigationController?.navigationBar.backgroundColor = .clear
         navigationController?.navigationBar.tintColor = .white
-        
-        navigationController?.pushViewController(homeViewController, animated: true)
+        navigationController?.pushViewController(homeViewController, animated: false)
     }
     
     
 }
+
+extension RecentsFavouritesViewController : UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        recentsArray = recentsArray.filter { (item) -> Bool in
+            
+            if searchText == "" {
+                return true
+            }else if item.location.lowercased().contains(searchText.lowercased()) {
+                return true
+            }else {
+                return false
+            }
+        }
+        listTableView.reloadData()
+        if isRecentsSegue {
+            
+            recentsArray = recentsArray.filter { (item) -> Bool in
+                
+                if searchText == "" {
+                    return true
+                }else if item.location.lowercased().contains(searchText.lowercased()) {
+                    return true
+                }else {
+                    return false
+                }
+            }
+            listTableView.reloadData()
+        } else {
+            favouritesArray = favouritesArray.filter { (item) -> Bool in
+                
+                if searchText == "" {
+                    return true
+                }else if item.location.lowercased().contains(searchText.lowercased()) {
+                    return true
+                }else {
+                    return false
+                }
+            }
+            listTableView.reloadData()
+        }
+    }
+}
+
+
+
+
 
