@@ -65,9 +65,8 @@ class DataStore {
                 let data = try Data(contentsOf: placeDetailsURL)
                 if let allPlaceDetailes = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [PlaceDetails] {
                     let favourites = allPlaceDetailes.filter({$0.isFavourite == true})
-                    favouritesArray = favourites
-                   // print(favouritesArray.count)
                     
+                    favouritesArray = favourites
                 }
             } catch {
                 print("error in loading")

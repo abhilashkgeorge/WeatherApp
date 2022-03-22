@@ -6,15 +6,18 @@
 //
 
 import Foundation
+import UIKit
 
-//protocol PlaceDetailsProtocol: AnyObject {
-//    func removePlaceAt(index: Int)
-//}
 
 class PlaceListViewModel {
-    //   weak var delagate: PlaceDetailsProtocol?
+  
     var dataStore = DataStore()
-    var placeDetails: [PlaceDetails] = [PlaceDetails]() //10values
+    var placeDetails: [PlaceDetails] = [PlaceDetails]() {
+        
+        didSet {
+            dataStore.savePlaces(placeDetails: placeDetails)
+        }
+    }
     
     init(placeDetails: [PlaceDetails]) {
         self.placeDetails = dataStore.loadPlaces()
@@ -37,15 +40,13 @@ class PlaceListViewModel {
     
     func removePlaceAtIndex(index: Int) {
         placeDetails.remove(at: index)
-        
-        //  delagate?.removePlaceAt(index: index)
     }
     
     func addPlace(place: PlaceDetails) {
         var index = -1
         if placeDetails.first == nil {
             
-            placeDetails.append(PlaceDetails(location: place.location, currentTemperature: place.currentTemperature, weatherIcon: place.weatherIcon, weatherStatus: place.weatherStatus, isFavourite: place.isFavourite))
+            self.placeDetails.append(PlaceDetails(location: place.location, currentTemperature: place.currentTemperature, weatherIcon: place.weatherIcon, weatherStatus: place.weatherStatus, isFavourite: place.isFavourite))
         } else {
             for placeName in placeDetails {
                 index = index + 1
@@ -56,10 +57,11 @@ class PlaceListViewModel {
             placeDetails.insert((PlaceDetails(location: place.location, currentTemperature: place.currentTemperature, weatherIcon: place.weatherIcon, weatherStatus: place.weatherStatus, isFavourite: place.isFavourite)), at: 0)
             dataStore.savePlaces(placeDetails: placeDetails)
 
-        }
+       }
     }
     
     func toggleFavourites(placeName: String) {
+        
         for list in placeDetails {
             if list.location == placeName {
                 list.isFavourite = !list.isFavourite
@@ -68,14 +70,49 @@ class PlaceListViewModel {
         }
     }
     
-    func getRecentSearchViewModel() -> PlaceListViewModel {
-        let viewModel = PlaceListViewModel(placeDetails: self.placeDetails)
+    func getRecentSearchViewModel() -> [PlaceDetails] {
+        let viewModel = self.placeDetails
         return viewModel
     }
     
-    func getFavouritesViewModel() -> PlaceListViewModel {
-        let favourites = placeDetails.filter({$0.isFavourite == true})
-        let viewModel = PlaceListViewModel(placeDetails: favourites)
-        return viewModel
+    func getFavouritesViewModel() -> [PlaceDetails] {
+        let favourites = self.placeDetails.filter({$0.isFavourite == true})
+        // let viewModel = PlaceListViewModel(placeDetails: favourites)
+        return favourites
     }
+    
+    func deleteFavouritePlace(place: String) {
+        for favourites in self.placeDetails {
+            if favourites.location == place {
+                favourites.isFavourite = false
+                dataStore.savePlaces(placeDetails: placeDetails)
+            }
+        }
+    }
+
+    func deleteAllFavourites() {
+        for favourites in self.placeDetails {
+            favourites.isFavourite = false
+            dataStore.savePlaces(placeDetails: self.placeDetails)
+        }
+        
+    }
+    
+        func deleteRecentSearch(place: String) {
+            for recents in self.placeDetails {
+                if recents.location == place {
+                    self.placeDetails = self.placeDetails.filter( {$0.location != place})
+                    dataStore.savePlaces(placeDetails: placeDetails)
+                }
+            }
+        }
+    
+        func deleteAllRecentSearches() {
+    
+            placeDetails.removeAll()
+            dataStore.savePlaces(placeDetails: placeDetails)
+            //let array = placeDetails.
+        }
+        
+    
 }

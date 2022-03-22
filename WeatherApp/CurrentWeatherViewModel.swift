@@ -11,7 +11,6 @@ import UIKit
 public struct CurrentWeatherViewModel {
     let apiManager = APIManager()
     let weatherModel: WeatherModel
-    var favouritesModel = FavouritesViewModel()
     var places: [PlaceDetails] = [PlaceDetails]()
     private(set) var dt: String = ""
     private(set) var name: String = ""

@@ -17,11 +17,9 @@ class RecentsFavouritesViewController: UIViewController {
     @IBOutlet weak var searchIcon: UIBarButtonItem!
     @IBOutlet weak var barButtonTitleItem: UIBarButtonItem!
     let searchBar = UISearchBar()
-    var placeDetail: [PlaceDetails] = [PlaceDetails]()
     var placeListViewModel: PlaceListViewModel?
+    var placeDetail: [PlaceDetails] = [PlaceDetails]()
     var isRecentsSegue: Bool = false
-    var favouritesList = FavouritesViewModel()
-    var recentSearchesList = RecentsViewModel()
     let additionalFunctions = AdditionalFunctions()
     var recentsArray: [PlaceDetails] = []
     var favouritesArray: [PlaceDetails] = []
@@ -37,8 +35,8 @@ class RecentsFavouritesViewController: UIViewController {
         listTableView.delegate = self
         listTableView.dataSource = self
         searchBar.delegate = self
-        recentsArray = recentSearchesList.recentsList
-        favouritesArray = favouritesList.favouritesList
+        recentsArray = dataStore.loadPlaces()
+        favouritesArray = dataStore.loadFavourites()
         configureView()
         
     }
@@ -59,6 +57,9 @@ class RecentsFavouritesViewController: UIViewController {
     }
     
     @IBAction func deleteAllButtonTapped(_ sender: Any) {
+        
+        
+
         var message = ""
         
         if !isRecentsSegue {
@@ -74,17 +75,17 @@ class RecentsFavouritesViewController: UIViewController {
             alert.dismiss(animated: true, completion: nil)
         }
         let optionYes = UIAlertAction(title: "Yes", style: .default) { (selection) in
-            
+            guard let placeListViewModel = self.placeListViewModel else {
+                return
+            }
             if self.isRecentsSegue {
                 self.recentsArray = []
-                self.recentSearchesList.deleteAllRecentSearches()
-                self.dataStore.savePlaces(placeDetails: self.recentsArray)
+                placeListViewModel.deleteAllRecentSearches()
                 self.listTableView.reloadData()
                 
             } else {
-                self.dataStore.retreivedData = []
-                //self.favouritesList.deleteAllFavourites()
                 self.favouritesArray = []
+                placeListViewModel.deleteAllFavourites()
                 self.listTableView.reloadData()
             }
             self.setUpEmptyTableView()
@@ -187,21 +188,22 @@ extension RecentsFavouritesViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        guard let placeListViewModel = placeListViewModel else { return
+            
+        }
         if editingStyle == .delete {
             
             if !isRecentsSegue {
-                var favouritesArr = dataStore.loadFavourites()
-                favouritesArr.remove(at: indexPath.row)
-                
-                favouritesArray[indexPath.row].isFavourite = false
-                favouritesList.deleteFavouritePlace(place: favouritesArray[indexPath.row].location)
+                let placeName = favouritesArray[indexPath.row].location
+                placeListViewModel.deleteFavouritePlace(place: placeName)
                 favouritesArray.remove(at: indexPath.row)
-                favouritesList.favouritesList.remove(at: indexPath.row)
                 numberOfCities = favouritesArray.count
-                
             } else {
+                let placeName = recentsArray[indexPath.row].location
+                placeListViewModel.deleteRecentSearch(place: placeName)
                 recentsArray.remove(at: indexPath.row)
-                recentSearchesList.recentsList.remove(at: indexPath.row)
+
             }
             listTableView.deleteRows(at: [indexPath],
                                      with: .left)
@@ -226,17 +228,7 @@ extension RecentsFavouritesViewController: UITableViewDelegate, UITableViewDataS
 
 extension RecentsFavouritesViewController : UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        recentsArray = recentsArray.filter { (item) -> Bool in
-            
-            if searchText == "" {
-                return true
-            }else if item.location.lowercased().contains(searchText.lowercased()) {
-                return true
-            }else {
-                return false
-            }
-        }
-        listTableView.reloadData()
+        
         if isRecentsSegue {
             
             recentsArray = recentsArray.filter { (item) -> Bool in

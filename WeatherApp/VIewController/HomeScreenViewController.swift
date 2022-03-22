@@ -10,6 +10,7 @@ import SwiftUI
 
 
 class HomeScreenViewController: UIViewController {
+  
     private let apiManager = APIManager()
     let location = Location()
     let service = Service()
@@ -26,6 +27,7 @@ class HomeScreenViewController: UIViewController {
     var recentSearches: [String] = []
     //MARK: Connection elements from storyboard
     private(set) var currentViewModel: CurrentWeatherViewModel?
+    var recents = RecentsFavouritesViewController()
     var placeListViewModel: PlaceListViewModel = PlaceListViewModel(placeDetails:[PlaceDetails]())
     @IBOutlet weak var currentDayDateTimeLabel: UILabel!
     @IBOutlet weak var LocationLabel: UILabel!
@@ -59,11 +61,13 @@ class HomeScreenViewController: UIViewController {
         
         if segue.identifier == String.Identifiers.favouriteViewControllerIdentifier.rawValue {
             vc?.barButtonTitleItem.title = "Favourites"
+            vc?.placeListViewModel = placeListViewModel
             navigationController?.navigationBar.backgroundColor = .white
         }
         
         if segue.identifier == String.Identifiers.recentsViewControllerIdentifier.rawValue {
             vc?.barButtonTitleItem.title = " Recent Search"
+            vc?.placeListViewModel = placeListViewModel 
             navigationController?.navigationBar.backgroundColor = .white
             vc?.isRecentsSegue = true
         }
@@ -86,9 +90,7 @@ class HomeScreenViewController: UIViewController {
         guard let currentViewModel = currentViewModel else {
             return
         }
-        //        guard var placeList = placesList else { return }
-        
-        
+              
         
         segmentedControlToggled(Any.self)
         currentDayDateTimeLabel.text = "\(currentViewModel.dt)"
@@ -286,6 +288,7 @@ class HomeScreenViewController: UIViewController {
         }
     }
 }
+
 
 extension HomeScreenViewController: UISearchBarDelegate {
     
