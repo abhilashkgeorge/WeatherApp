@@ -11,27 +11,43 @@ import CoreLocation
 class Location: NSObject, CLLocationManagerDelegate {
     
     static let shareInstance = Location()
-     let apiManager = APIManager()
+    let apiManager = APIManager()
     var locationManager: CLLocationManager!
     var completion:  ((CLLocation) -> Void)?
+    
     func configureCurrentLocation(completion: @escaping ((CLLocation) -> Void)) {
-        if (CLLocationManager.locationServicesEnabled())
-        {
+        if CLLocationManager.locationServicesEnabled() {
             locationManager = CLLocationManager()
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestAlwaysAuthorization()
-            locationManager.startUpdatingLocation()
+            
+            switch CLLocationManager.authorizationStatus() {
+            case .authorizedAlways, .authorizedWhenInUse:
+                DispatchQueue.global(qos: .background).async { [weak self] in
+                    self?.locationManager.startUpdatingLocation()
+                }
+            default:
+                // handle case where authorization has not been granted yet
+                break
+            }
+            
             self.completion = completion
         }
     }
+
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) 
-    {
-        guard let location = locations.last else { return}
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                self?.locationManager.startUpdatingLocation()
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
         completion?(location)
         locationManager.stopUpdatingLocation()
     }
-    
 }
-

@@ -18,7 +18,6 @@ class PlaceListViewModel {
             dataStore.savePlaces(placeDetails: placeDetails)
         }
     }
-    
     init(placeDetails: [PlaceDetails]) {
         self.placeDetails = dataStore.loadPlaces()
     }

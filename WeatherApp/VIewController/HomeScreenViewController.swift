@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Branch
 
 
 class HomeScreenViewController: UIViewController {
@@ -49,6 +50,7 @@ class HomeScreenViewController: UIViewController {
         super.viewDidLoad()
         configureItems()
         getWeather()
+        createBranchObj()
     }
     
     
@@ -121,6 +123,14 @@ class HomeScreenViewController: UIViewController {
         
     }
     
+    func createBranchObj() {
+        let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "location/\(LocationLabel.text!)")
+           branchUniversalObject.title = LocationLabel.text!
+           branchUniversalObject.contentDescription = "Weather information for \(LocationLabel.text!)"
+           branchUniversalObject.contentMetadata.customMetadata["current_temp"] = currentTemperatureLabel.text!
+           branchUniversalObject.contentMetadata.customMetadata["weather_status"] = weatherStatusLabel.text!
+           branchUniversalObject.contentMetadata.customMetadata["weather_date"] = currentDayDateTimeLabel.text!
+    }
     
     private func getWeather() {
         if isSearchByLocation == false {

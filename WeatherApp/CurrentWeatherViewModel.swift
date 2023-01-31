@@ -48,6 +48,7 @@ public struct CurrentWeatherViewModel {
     }
 }
 
+
 private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = String.dateFormatter.DateFormat.rawValue

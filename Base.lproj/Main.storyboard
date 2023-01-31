@@ -623,6 +623,21 @@
             </objects>
             <point key="canvasLocation" x="2276.2419006479481" y="-12.616822429906541"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="7iw-ht-TxB">
+            <objects>
+                <viewController id="fi4-vH-82O" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mzD-jd-fFo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="PCt-TU-xr2"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="37j-Gy-a6W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3871" y="-78"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="3nC-wd-wS3">
             <objects>
@@ -655,6 +670,9 @@
         <image name="icon_search_white" width="20" height="20"/>
         <image name="icon_temperature_info" width="23" height="42"/>
         <image name="icon_wind_info" width="42" height="30"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
