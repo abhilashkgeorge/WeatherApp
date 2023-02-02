@@ -11,7 +11,7 @@ import Branch
 
 
 class HomeScreenViewController: UIViewController {
-  
+    
     private let apiManager = APIManager()
     let location = Location()
     let service = Service()
@@ -50,7 +50,6 @@ class HomeScreenViewController: UIViewController {
         super.viewDidLoad()
         configureItems()
         getWeather()
-        createBranchObj()
     }
     
     
@@ -69,7 +68,7 @@ class HomeScreenViewController: UIViewController {
         
         if segue.identifier == String.Identifiers.recentsViewControllerIdentifier.rawValue {
             vc?.barButtonTitleItem.title = " Recent Search"
-            vc?.placeListViewModel = placeListViewModel 
+            vc?.placeListViewModel = placeListViewModel
             navigationController?.navigationBar.backgroundColor = .white
             vc?.isRecentsSegue = true
         }
@@ -83,7 +82,6 @@ class HomeScreenViewController: UIViewController {
             currentViewModel = CurrentWeatherViewModel.init(weatherModel: searchResult)
             DispatchQueue.main.async {
                 self.updateView()
-                
             }
         }
     }
@@ -92,7 +90,7 @@ class HomeScreenViewController: UIViewController {
         guard let currentViewModel = currentViewModel else {
             return
         }
-              
+        
         
         segmentedControlToggled(Any.self)
         currentDayDateTimeLabel.text = "\(currentViewModel.dt)"
@@ -123,13 +121,37 @@ class HomeScreenViewController: UIViewController {
         
     }
     
-    func createBranchObj() {
+    @IBAction func shareButtonTapped(_ sender: Any) {
+        //MARK: implementation of share button
+        let linkProperties: BranchLinkProperties = BranchLinkProperties()
+        linkProperties.feature = "sharing"
+        
         let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "location/\(LocationLabel.text!)")
-           branchUniversalObject.title = LocationLabel.text!
-           branchUniversalObject.contentDescription = "Weather information for \(LocationLabel.text!)"
-           branchUniversalObject.contentMetadata.customMetadata["current_temp"] = currentTemperatureLabel.text!
-           branchUniversalObject.contentMetadata.customMetadata["weather_status"] = weatherStatusLabel.text!
-           branchUniversalObject.contentMetadata.customMetadata["weather_date"] = currentDayDateTimeLabel.text!
+        branchUniversalObject.title = LocationLabel.text!
+        branchUniversalObject.contentDescription = "Weather information for \(LocationLabel.text!)"
+        branchUniversalObject.imageUrl = currentViewModel?.weatherIcon
+        branchUniversalObject.contentMetadata.customMetadata["current_temp"] = currentTemperatureLabel.text!
+        branchUniversalObject.contentMetadata.customMetadata["weather_status"] = weatherStatusLabel.text!
+        branchUniversalObject.contentMetadata.customMetadata["weather_date"] = currentDayDateTimeLabel.text!
+        branchUniversalObject.contentMetadata.customMetadata["place_name"] = LocationLabel.text!
+        branchUniversalObject.publiclyIndex = true
+        branchUniversalObject.locallyIndex = true
+        
+        
+        debugPrint(branchUniversalObject)
+        
+        
+        branchUniversalObject.showShareSheet(with: linkProperties,
+                                             andShareText: "Here's the weather for \(LocationLabel.text!)!",
+                                             from: self) { (activityType, completed) in
+            if (completed) {
+                print(String(format: "Completed sharing %@ to %@", self.weatherStatusLabel.text!, activityType!))
+                print(branchUniversalObject.contentMetadata.customMetadata)
+            } else {
+                print("Link sharing cancelled")
+            }
+        }
+        
     }
     
     private func getWeather() {
@@ -139,12 +161,23 @@ class HomeScreenViewController: UIViewController {
                 self.configureWeather(url: url)
             }
         }else {
+            let event = BranchEvent.standardEvent(.search)
+            event.alias = "search alias"
+            event.eventDescription = "Place Search"
+            
+            event.customData["Custom_Event_Property_Key1"] = "Custom_Event_Property_val1"
+            
             if let searchText = searchBar.text {
                 location.configureCurrentLocation { location in
                     let url = URL.getWeatherByCity(city: searchText)
                     self.configureWeather(url: url)
                     self.recentSearches = [searchText]
-                   // print(self.recentSearches)
+                    event.searchQuery = self.searchBar.text
+                    print("----Event-----")
+                    
+                    event.logEvent()
+                    print(event)
+                    // print(self.recentSearches)
                 }
             }
         }
@@ -222,7 +255,7 @@ class HomeScreenViewController: UIViewController {
             let place = PlaceDetails(location: LocationLabel.text ?? "", currentTemperature: currentTemp , weatherIcon: weatherStatusIcon.image!, weatherStatus: weatherStatusLabel.text  ?? "", isFavourite: true)
             placeListViewModel.addPlace(place: place)
             dataStore.savePlaces(placeDetails: placeListViewModel.placeDetails)
-
+            
         }
         for list in placesList {
             if list.location == currentViewModel.name + "," + currentViewModel.weatherModel.sys.country {
@@ -305,7 +338,7 @@ extension HomeScreenViewController: UISearchBarDelegate {
     @objc func searchItemTapped() {
         searchView.backgroundColor = .white
         searchView.frame = super.view.bounds
-        searchBar.delegate = self 
+        searchBar.delegate = self
         searchBar.showsCancelButton = true
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         
